@@ -38,7 +38,7 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-void openPage(BuildContext context) {
+void settingsPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
       return Scaffold(
@@ -91,7 +91,7 @@ class _DashboardState extends State<Dashboard> {
             icon: FaIcon(FontAwesomeIcons.cog),
             tooltip: 'Next page',
             onPressed: () {
-              openPage(context);
+              settingsPage(context);
             },
           ),
         ],
@@ -123,33 +123,22 @@ class _DashboardState extends State<Dashboard> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: FaDuotoneIcon(
-              FontAwesomeIcons.duotoneRocketLaunch,
-              primaryColor: Color.fromRGBO(0, 0, 0, 0.5),
-              secondaryColor: Colors.black,
-            ),
+            icon: FaIcon(FontAwesomeIcons.rocketLaunch),
             title: Text('DASHBOARD'),
           ),
           BottomNavigationBarItem(
-            icon: FaDuotoneIcon(
-              FontAwesomeIcons.duotoneExchangeAlt,
-              primaryColor: Color.fromRGBO(0, 0, 0, 0.5),
-              secondaryColor: Colors.black,
-            ),
+            icon: FaIcon(FontAwesomeIcons.lightExchange),
             title: Text('TRADE'),
           ),
           BottomNavigationBarItem(
-            icon: FaDuotoneIcon(
-              FontAwesomeIcons.duotoneHistory,
-              primaryColor: Color.fromRGBO(0, 0, 0, 0.5),
-              secondaryColor: Colors.black,
-            ),
+            icon: FaIcon(FontAwesomeIcons.lightHistory),
             title: Text('TRADE HISTORY'),
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
+        backgroundColor: createMaterialColor(Color(0xFF0e2842)),
       ),
     );
   }
