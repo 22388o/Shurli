@@ -30,9 +30,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
 
-dependency_overrides:
-  font_awesome_flutter:
-    path: /Users/satinder/Documents/GitHub/font_awesome_flutter
+# dependency_overrides:
+#   font_awesome_flutter:
+#     path: /Users/satinder/Documents/GitHub/font_awesome_flutter
 
 dev_dependencies:
   flutter_test:
