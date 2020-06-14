@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:Shurli/screens/dashboard_screen.dart';
 
 void main() {
   runApp(ShurliApp());
@@ -24,7 +25,10 @@ class ShurliApp extends StatelessWidget {
             )),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: null,
+      initialRoute: Dashboard.id,
+      routes: {
+        Dashboard.id: (context) => Dashboard(),
+      },
     );
   }
 }
