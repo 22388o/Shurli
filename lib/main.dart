@@ -1,3 +1,4 @@
+import 'package:Shurli/screens/trade_screen.dart';
 import 'package:Shurli/theme_data.dart';
 import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,7 @@ class ShurliApp extends StatelessWidget {
       initialRoute: Dashboard.id,
       routes: {
         Dashboard.id: (context) => Dashboard(),
+        Trade.id: (context) => Trade(),
       },
     );
   }

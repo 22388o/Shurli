@@ -1,3 +1,5 @@
+import 'package:Shurli/screens/dashboard_screen.dart';
+import 'package:Shurli/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:Shurli/theme_data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,7 +16,9 @@ class MainMenu extends StatelessWidget {
             children: <Widget>[
               FlatButton(
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Dashboard.id);
+                },
                 child: Column(
                   children: <Widget>[
                     FaIcon(FontAwesomeIcons.rocketLaunch),
@@ -26,7 +30,9 @@ class MainMenu extends StatelessWidget {
               SizedBox(height: 40),
               FlatButton(
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Trade.id);
+                },
                 child: Column(
                   children: <Widget>[
                     FaIcon(FontAwesomeIcons.lightExchange),

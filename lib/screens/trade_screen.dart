@@ -2,14 +2,14 @@ import 'package:Shurli/screens/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:Shurli/theme_data.dart';
 
-class Dashboard extends StatefulWidget {
-  static String id = 'dashboard_screen';
+class Trade extends StatefulWidget {
+  static String id = 'trade_screen';
 
   @override
-  _DashboardState createState() => _DashboardState();
+  _TradeState createState() => _TradeState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _TradeState extends State<Trade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
             height: 100,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("Dashboard"),
+              child: Text("Trade"),
             ),
           ),
         ),
