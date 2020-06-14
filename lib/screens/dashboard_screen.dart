@@ -26,17 +26,16 @@ class _DashboardState extends State<Dashboard> {
                 topLeft: Radius.circular(20.0),
                 bottomLeft: Radius.circular(20.0),
               ),
-              border: Border.all(width: 0.8),
+              border: Border.all(color: Color(0xCC26263b),width: 0.8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black54.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
+                  color: Colors.black54.withOpacity(0.8),
+                  spreadRadius: 7,
+                  blurRadius: 14,
                   offset: Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
-            // color: Colors.green,
             width: 100,
             height: 100,
             child: Text("Contents"),
