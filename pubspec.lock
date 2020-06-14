@@ -55,6 +55,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_icons:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "146d0061fa754b2092402a237ddc671ede071a98"
+      url: "git://github.com/KomodoPlatform/flutter-icons"
+    source: git
+    version: "1.0.0+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -63,9 +72,11 @@ packages:
   font_awesome_flutter:
     dependency: "direct main"
     description:
-      name: font_awesome_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "78d6f43bf23c49d16b438e956e514528b51c430e"
+      url: "git://github.com/satindergrewal/font_awesome_flutter"
+    source: git
     version: "8.8.1"
   matcher:
     dependency: transitive

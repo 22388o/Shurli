@@ -123,15 +123,15 @@ class _DashboardState extends State<Dashboard> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.rocket),
+            icon: FaIcon(FontAwesomeIcons.rocketLaunch),
             title: Text('DASHBOARD'),
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.exchangeAlt),
+            icon: FaIcon(FontAwesomeIcons.lightExchange),
             title: Text('TRADE'),
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.history),
+            icon: FaIcon(FontAwesomeIcons.lightHistory),
             title: Text('TRADE HISTORY'),
           ),
         ],
