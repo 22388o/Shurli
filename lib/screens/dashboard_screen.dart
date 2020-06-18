@@ -1,7 +1,7 @@
 import 'package:Shurli/screens/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:Shurli/theme_data.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:Shurli/widgets/assets_widget.dart';
 
 class Dashboard extends StatefulWidget {
   static String id = 'dashboard_screen';
@@ -42,68 +42,59 @@ class _DashboardState extends State<Dashboard> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView(children: [
-                AssetsCard(),
+                AssetsCard(
+                  coinName: 'Komodo',
+                  coinBalance: '4.7880803',
+                  coinTicker: 'KMD',
+                  coinIcon: 'kmd',
+                  isSynced: true,
+                  isConnected: true,
+                ),
+                AssetsCard(
+                  coinName: 'Pirate',
+                  coinBalance: '4.7880803',
+                  coinTicker: 'ARRR',
+                  coinIcon: 'arrr',
+                  isSynced: false,
+                  isConnected: true,
+                ),
+                AssetsCard(
+                  coinName: 'DEX',
+                  coinBalance: '4.7880803',
+                  coinTicker: 'DEX',
+                  coinIcon: 'dex',
+                  isSynced: true,
+                  isConnected: true,
+                ),
+                AssetsCard(
+                  coinName: 'Marmara',
+                  coinBalance: '4.7880803',
+                  coinTicker: 'MCL',
+                  coinIcon: 'mcl',
+                  isSynced: false,
+                  isConnected: true,
+                ),
+                AssetsCard(
+                  coinName: 'VerusCoin',
+                  coinBalance: '4.7880803',
+                  coinTicker: 'VRSC',
+                  coinIcon: 'vrsc',
+                  isSynced: true,
+                  isConnected: true,
+                ),
+                AssetsCard(
+                  coinName: 'HUSH',
+                  coinBalance: '4.7880803',
+                  coinTicker: 'HUSH',
+                  coinIcon: 'hush3',
+                  isSynced: false,
+                  isConnected: false,
+                ),
               ]),
             ),
           ),
         ),
       ],
     ));
-  }
-}
-
-class AssetsCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white.withOpacity(0.08),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(children: <Widget>[
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/coin_icons/kmd.png'),
-          ),
-          SizedBox(width: 5.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Komodo'),
-              Text('KMD'),
-            ],
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text('4.7880803 KMD'),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      FaDuotoneIcon(
-                        FontAwesomeIcons.duotoneSyncAlt,
-                        primaryColor: Colors.green.withOpacity(.4),
-                        secondaryColor: Colors.green,
-                        size: 20.0,
-                      ),
-                      SizedBox(width: 5.0),
-                      FaIcon(
-                        FontAwesomeIcons.lightShieldCheck,
-                        color: Colors.lightBlueAccent,
-                        size: 20.0,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ]),
-      ),
-    );
   }
 }
