@@ -15,7 +15,7 @@ class AssetsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(coinName);
+    // print(coinName);
     return Card(
       color: Colors.white.withOpacity(0.08),
       child: Padding(
