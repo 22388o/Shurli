@@ -1,4 +1,3 @@
-import 'package:Shurli/main.dart';
 import 'package:Shurli/screens/dashboard_screen.dart';
 import 'package:Shurli/screens/trade_screen.dart';
 import 'package:flutter/material.dart';
