@@ -13,6 +13,9 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    print(queryData.size.width);
     return Scaffold(
         body: Row(
       mainAxisAlignment: MainAxisAlignment.start,
