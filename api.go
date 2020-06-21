@@ -92,12 +92,8 @@ func idx(w http.ResponseWriter, r *http.Request) {
 
 	// fmt.Println("wallets: ", wallets)
 
-	err := tpl.ExecuteTemplate(w, "index.gohtml", wallets)
-	if err != nil {
-		// log.Fatalf("some error")
-		http.Error(w, err.Error(), 500)
-		sagoutil.Log.Fatalln(err)
-	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(wallets)
 }
 
 func orderbook(w http.ResponseWriter, r *http.Request) {
@@ -160,11 +156,14 @@ func orderbook(w http.ResponseWriter, r *http.Request) {
 		OrderList: orderlist,
 	}
 
-	err := tpl.ExecuteTemplate(w, "orderbook.gohtml", data)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		sagoutil.Log.Fatalln(err)
-	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+
+	// err := tpl.ExecuteTemplate(w, "orderbook.gohtml", data)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 500)
+	// 	sagoutil.Log.Fatalln(err)
+	// }
 }
 
 func orderid(w http.ResponseWriter, r *http.Request) {
@@ -179,11 +178,14 @@ func orderid(w http.ResponseWriter, r *http.Request) {
 	orderData = sagoutil.OrderID(id)
 	// fmt.Println(orderData)
 
-	err := tpl.ExecuteTemplate(w, "orderid.gohtml", orderData)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		sagoutil.Log.Fatalln(err)
-	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(orderData)
+
+	// err := tpl.ExecuteTemplate(w, "orderid.gohtml", orderData)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 500)
+	// 	sagoutil.Log.Fatalln(err)
+	// }
 }
 
 func orderinit(w http.ResponseWriter, r *http.Request) {
@@ -227,11 +229,14 @@ func orderinit(w http.ResponseWriter, r *http.Request) {
 		RelExplorer:   conf.Explorers[strings.ReplaceAll(orderData.Rel, "z", "")],
 	}
 
-	err := tpl.ExecuteTemplate(w, "orderinit.gohtml", data)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		sagoutil.Log.Fatalln(err)
-	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+
+	// err := tpl.ExecuteTemplate(w, "orderinit.gohtml", data)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 500)
+	// 	sagoutil.Log.Fatalln(err)
+	// }
 }
 
 var upgrader = websocket.Upgrader{
@@ -392,21 +397,21 @@ func echo(w http.ResponseWriter, r *http.Request) {
 }
 
 func swaphistory(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	var history sagoutil.SwapsHistory
 	allhistory, err := history.SwapsHistory()
 	// fmt.Println(allhistory)
 
-	// if err != nil {
-	// 	json.NewEncoder(w).Encode(err.Error())
-	// } else {
-	// 	json.NewEncoder(w).Encode(allhistory)
-	// }
-
-	err = tpl.ExecuteTemplate(w, "swaphistory.gohtml", allhistory)
 	if err != nil {
-		// log.Fatalf("some error")
-		http.Error(w, err.Error(), 500)
-		sagoutil.Log.Fatalln(err)
+		json.NewEncoder(w).Encode(err.Error())
+	} else {
+		json.NewEncoder(w).Encode(allhistory)
 	}
+
+	// err = tpl.ExecuteTemplate(w, "swaphistory.gohtml", allhistory)
+	// if err != nil {
+	// 	// log.Fatalf("some error")
+	// 	http.Error(w, err.Error(), 500)
+	// 	sagoutil.Log.Fatalln(err)
+	// }
 }
