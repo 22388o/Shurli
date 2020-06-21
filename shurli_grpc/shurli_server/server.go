@@ -5,11 +5,13 @@ import (
 	"log"
 	"net"
 
-	"github.com/Meshbits/shurli/shurli_grpc/shurlipb"
+	pb "github.com/Meshbits/shurli/shurli_grpc/shurlipb"
 	"google.golang.org/grpc"
 )
 
-type server struct{}
+type server struct {
+	pb.UnimplementedShurliServiceServer
+}
 
 func main() {
 	fmt.Println("Hello Shurli gRPC!")
@@ -21,7 +23,7 @@ func main() {
 
 	opts := []grpc.ServerOption{}
 	s := grpc.NewServer(opts...)
-	shurlipb.RegisterShurliServiceServer(s, &server{})
+	pb.RegisterShurliServiceServer(s, &server{})
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
