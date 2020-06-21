@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package shurli;
+option go_package = "shurlipb";
+
+message WalletInfoRequest {}
+
+message WalletInfoResponse{
+    string Name = 1;
+    string Ticker = 2;
+    string Icon = 3;
+    string Status = 4;
+    double Balance = 5;
+    double ZBalance = 6;
+    int32 Blocks = 7;
+    bool Synced = 8;
+    bool Shielded = 9;
+    bool TValidAddr = 10;
+    bool ZValidAddr = 11;
+}
+
+service ShurliService{
+    //Unary
+    rpc WalletInfo(WalletInfoRequest) returns (WalletInfoResponse) {};
+}
