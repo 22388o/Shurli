@@ -92,6 +92,13 @@ func idx(w http.ResponseWriter, r *http.Request) {
 
 	// fmt.Println("wallets: ", wallets)
 
+	// var w2 []*sagoutil.WInfo
+
+	// for _, v := range wallets {
+	// 	w2 = append(w2, v)
+	// }
+	// fmt.Println(w2)
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(wallets)
 }

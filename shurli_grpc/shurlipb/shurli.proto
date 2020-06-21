@@ -5,7 +5,7 @@ option go_package = "shurlipb";
 
 message WalletInfoRequest {}
 
-message WalletInfoResponse{
+message WalletInfo {
     string Name = 1;
     string Ticker = 2;
     string Icon = 3;
@@ -19,7 +19,11 @@ message WalletInfoResponse{
     bool ZValidAddr = 11;
 }
 
+message WalletInfoResponse{
+    repeated WalletInfo Wallets = 1;
+}
+
 service ShurliService{
-    //Unary
+    // Return details of wallets which are supported by this Shurli
     rpc WalletInfo(WalletInfoRequest) returns (WalletInfoResponse) {};
 }

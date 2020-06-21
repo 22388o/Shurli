@@ -27,7 +27,7 @@ type WInfo struct {
 	Status     string
 	Balance    float64
 	ZBalance   float64
-	Blocks     int
+	Blocks     int32
 	Synced     bool
 	Shielded   bool
 	TValidAddr bool
@@ -172,7 +172,7 @@ func WalletInfo(chains []kmdgo.AppType) []WInfo {
 						Status:     "Online",
 						ZBalance:   zblc.Result,
 						Balance:    info.Result.Balance,
-						Blocks:     info.Result.Blocks,
+						Blocks:     int32(info.Result.Blocks),
 						Synced:     tempSyncStatus,
 						Shielded:   coinConfInfo.Shielded,
 						TValidAddr: vldadr.Result.Ismine,
@@ -186,7 +186,7 @@ func WalletInfo(chains []kmdgo.AppType) []WInfo {
 						Icon:       strings.ToLower(coinConfInfo.Ticker),
 						Status:     "Online",
 						Balance:    info.Result.Balance,
-						Blocks:     info.Result.Blocks,
+						Blocks:     int32(info.Result.Blocks),
 						Synced:     tempSyncStatus,
 						Shielded:   coinConfInfo.Shielded,
 						TValidAddr: vldadr.Result.Ismine,
