@@ -91,17 +91,7 @@ func idx(w http.ResponseWriter, r *http.Request) {
 	var wallets []sagoutil.WInfo
 	wallets = sagoutil.WalletInfo(chains)
 
-	var pwallets []*sagoutil.WInfo
-
-	for i, v := range wallets {
-		fmt.Println(&v)
-		fmt.Printf("Wallet[%d]: %v\n", i, v)
-		fmt.Printf("Wallet[%d] memory address: %p\n", i, &wallets[i])
-
-		// fmt.Println(pwallets[i])
-
-		pwallets = append(pwallets, &wallets[i])
-	}
+	pwallets := dataToShurliPbWalletInfo(wallets)
 
 	for i2, v2 := range pwallets {
 		fmt.Printf("pWallet[%d]: %v\n", i2, v2)
@@ -109,6 +99,27 @@ func idx(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(wallets)
+}
+
+func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*sagoutil.WInfo {
+
+	var pwallets []*sagoutil.WInfo
+
+	for i := range data {
+		// fmt.Println(&v)
+		// fmt.Printf("Wallet[%d]: %v\n", i, v)
+		// fmt.Printf("Wallet[%d] memory address: %p\n", i, &data[i])
+
+		// fmt.Println(pwallets[i])
+
+		pwallets = append(pwallets, &data[i])
+	}
+
+	// for i2, v2 := range pwallets {
+	// 	fmt.Printf("pWallet[%d]: %v\n", i2, v2)
+	// }
+
+	return pwallets
 }
 
 func orderbook(w http.ResponseWriter, r *http.Request) {
