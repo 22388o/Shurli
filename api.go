@@ -104,38 +104,45 @@ func idx(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(&w3)
 
 	var w2 []*sagoutil.WInfo
-	w01 := sagoutil.WInfo{
-		Name:       "Komodo",
-		Ticker:     "KMD",
-		Icon:       "kmd",
-		Status:     "Loading...",
-		Balance:    0.0,
-		ZBalance:   0.0,
-		Blocks:     0,
-		Synced:     false,
-		Shielded:   false,
-		TValidAddr: false,
-		ZValidAddr: false,
-	}
-	w2 = append(w2, &w01)
-	fmt.Println("w2: ", *w2[0])
-	// fmt.Println("*w2: ", w2)
-	fmt.Println("&w2: ", &w2)
-
-	// for i, v := range wallets {
-	// 	fmt.Printf("\nWallet[%d]: %v\n\n", i, v)
-	// 	fmt.Println("\tName: ", v.Name)
-	// 	fmt.Println("\tTicker: ", v.Ticker)
-	// 	fmt.Println("\tIcon: ", v.Icon)
-	// 	fmt.Println("\tStatus: ", v.Status)
-	// 	fmt.Println("\tBalance: ", v.Balance)
-	// 	fmt.Println("\tZBalance: ", v.ZBalance)
-	// 	fmt.Println("\tBlocks: ", v.Blocks)
-	// 	fmt.Println("\tSynced: ", v.Synced)
-	// 	fmt.Println("\tShielded: ", v.Shielded)
-	// 	fmt.Println("\tTValidAddr: ", v.TValidAddr)
-	// 	fmt.Println("\tZValidAddr: ", v.ZValidAddr)
+	// w01 := sagoutil.WInfo{
+	// 	Name:       "Komodo",
+	// 	Ticker:     "KMD",
+	// 	Icon:       "kmd",
+	// 	Status:     "Loading...",
+	// 	Balance:    0.0,
+	// 	ZBalance:   0.0,
+	// 	Blocks:     0,
+	// 	Synced:     false,
+	// 	Shielded:   false,
+	// 	TValidAddr: false,
+	// 	ZValidAddr: false,
 	// }
+	// w2 = append(w2, &w01)
+	// // w2[0] = &w01
+	// fmt.Println("w2: ", *w2[0])
+	// // fmt.Println("*w2: ", w2)
+	// fmt.Println("&w2: ", &w2)
+
+	for i, v := range wallets {
+		fmt.Printf("\nWallet[%d]: %v\n\n", i, v)
+		w2 = append(w2, &v)
+		// fmt.Println("\tName: ", v.Name)
+		// fmt.Println("\tTicker: ", v.Ticker)
+		// fmt.Println("\tIcon: ", v.Icon)
+		// fmt.Println("\tStatus: ", v.Status)
+		// fmt.Println("\tBalance: ", v.Balance)
+		// fmt.Println("\tZBalance: ", v.ZBalance)
+		// fmt.Println("\tBlocks: ", v.Blocks)
+		// fmt.Println("\tSynced: ", v.Synced)
+		// fmt.Println("\tShielded: ", v.Shielded)
+		// fmt.Println("\tTValidAddr: ", v.TValidAddr)
+		// fmt.Println("\tZValidAddr: ", v.ZValidAddr)
+	}
+	// fmt.Println("w2: ", *w2[0])
+
+	for i, v2 := range w2 {
+		fmt.Printf("\nWallet[%d]: %v\n\n", i, *v2)
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(wallets)
