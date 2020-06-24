@@ -118,7 +118,7 @@ func idx(w http.ResponseWriter, r *http.Request) {
 		ZValidAddr: false,
 	}
 	w2 = append(w2, &w01)
-	fmt.Println("w2: ", w2)
+	fmt.Println("w2: ", *w2[0])
 	// fmt.Println("*w2: ", w2)
 	fmt.Println("&w2: ", &w2)
 
