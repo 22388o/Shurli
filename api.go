@@ -124,7 +124,9 @@ func idx(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("&w2: ", &w2)
 
 	for i, v := range wallets {
-		fmt.Printf("\nWallet[%d]: %v\n\n", i, v)
+		fmt.Println(&v)
+		fmt.Printf("Wallet[%d]: %v\n", i, v)
+		fmt.Printf("Wallet[%d]: %v\n\n", i, &v)
 		w2 = append(w2, &v)
 		// fmt.Println("\tName: ", v.Name)
 		// fmt.Println("\tTicker: ", v.Ticker)
@@ -141,7 +143,8 @@ func idx(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("w2: ", *w2[0])
 
 	for i, v2 := range w2 {
-		fmt.Printf("\nWallet[%d]: %v\n\n", i, *v2)
+		// fmt.Printf("\n ==> Wallet[%d]: %v\n\n", i, *v2)
+		fmt.Println(i, &v2)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
