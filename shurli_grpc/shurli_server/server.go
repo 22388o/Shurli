@@ -7,6 +7,7 @@ import (
 	"net"
 
 	"github.com/Meshbits/shurli/sagoutil"
+	"github.com/Meshbits/shurli/shurli_grpc/shurlipb"
 	pb "github.com/Meshbits/shurli/shurli_grpc/shurlipb"
 	"google.golang.org/grpc"
 )
@@ -24,33 +25,36 @@ func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) {
 	var wallets []sagoutil.WInfo
 	wallets = sagoutil.WalletInfo(chains)
 
-	dataToShurliPbWalletInfo(wallets)
+	// pwallets := dataToShurliPbWalletInfo(wallets)
 
-	// res := &pb.WalletInfoResponse{
-	// 	Wallets: dataToShurliPbWalletInfo(wallets),
+	// for i2, v2 := range pwallets {
+	// 	fmt.Printf("pWallet[%d]: %v\n", i2, v2)
 	// }
+
+	res := &pb.WalletInfoResponse{
+		Wallets: dataToShurliPbWalletInfo(wallets),
+	}
 }
 
-func dataToShurliPbWalletInfo(data []*sagoutil.WInfo) {
+func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*shurlipb.WalletInfo {
 
-	// var wallets []*pb.WalletInfo
+	var pwallets []*shurlipb.WalletInfo
 
-	for _, v := range data {
-		fmt.Println(v)
+	for i := range data {
+		// fmt.Println(&v)
+		// fmt.Printf("Wallet[%d]: %v\n", i, v)
+		// fmt.Printf("Wallet[%d] memory address: %p\n", i, &data[i])
+
+		// fmt.Println(pwallets[i])
+
+		pwallets = append(pwallets, &data[i])
 	}
-	// return &[]pb.WalletInfo{
-	// 	Name:       data.Name,
-	// 	Ticker:     data.Ticker,
-	// 	Icon:       data.Icon,
-	// 	Status:     data.Status,
-	// 	Balance:    data.Balance,
-	// 	ZBalance:   data.ZBalance,
-	// 	Blocks:     data.Blocks,
-	// 	Synced:     data.Synced,
-	// 	Shielded:   data.Shielded,
-	// 	TValidAddr: data.TValidAddr,
-	// 	ZValidAddr: data.ZValidAddr,
+
+	// for i2, v2 := range pwallets {
+	// 	fmt.Printf("pWallet[%d]: %v\n", i2, v2)
 	// }
+
+	return pwallets
 }
 
 func main() {
