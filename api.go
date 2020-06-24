@@ -112,7 +112,21 @@ func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*sagoutil.WInfo {
 
 		// fmt.Println(pwallets[i])
 
-		pwallets = append(pwallets, &data[i])
+		tmp := sagoutil.WInfo{
+			Name:       data[i].Name,
+			Ticker:     data[i].Ticker,
+			Icon:       data[i].Icon,
+			Status:     data[i].Status,
+			Balance:    data[i].Balance,
+			ZBalance:   data[i].ZBalance,
+			Blocks:     data[i].Blocks,
+			Synced:     data[i].Synced,
+			Shielded:   data[i].Shielded,
+			TValidAddr: data[i].TValidAddr,
+			ZValidAddr: data[i].ZValidAddr,
+		}
+
+		pwallets = append(pwallets, &tmp)
 	}
 
 	// for i2, v2 := range pwallets {

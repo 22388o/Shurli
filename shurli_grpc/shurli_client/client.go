@@ -14,7 +14,7 @@ func main() {
 
 	opts := grpc.WithInsecure()
 
-	cc, err := grpc.Dial("0.0.0.0:500052", opts)
+	cc, err := grpc.Dial("0.0.0.0:50052", opts)
 	if err != nil {
 		log.Fatalf("Could not connect: %v", err)
 	}
@@ -33,5 +33,5 @@ func walletInfo(c pb.ShurliServiceClient) {
 	if err != nil {
 		log.Fatalf("Error while calling WalletInfo RPC: %v", err)
 	}
-	log.Printf("Response from WalletInfo: %v", res.GetName())
+	log.Printf("Response from WalletInfo: %v", res)
 }

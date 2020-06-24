@@ -16,7 +16,7 @@ type server struct {
 	pb.UnimplementedShurliServiceServer
 }
 
-func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) {
+func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) (*shurlipb.WalletInfoResponse, error) {
 	fmt.Printf("WalletInfo function was invoked with %v\n", req)
 	var conf sagoutil.SubAtomicConfig = sagoutil.SubAtomicConfInfo()
 
@@ -34,6 +34,8 @@ func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) {
 	res := &pb.WalletInfoResponse{
 		Wallets: dataToShurliPbWalletInfo(wallets),
 	}
+
+	return res, nil
 }
 
 func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*shurlipb.WalletInfo {
@@ -46,8 +48,21 @@ func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*shurlipb.WalletInfo {
 		// fmt.Printf("Wallet[%d] memory address: %p\n", i, &data[i])
 
 		// fmt.Println(pwallets[i])
+		tmp := shurlipb.WalletInfo{
+			Name:       data[i].Name,
+			Ticker:     data[i].Ticker,
+			Icon:       data[i].Icon,
+			Status:     data[i].Status,
+			Balance:    data[i].Balance,
+			ZBalance:   data[i].ZBalance,
+			Blocks:     data[i].Blocks,
+			Synced:     data[i].Synced,
+			Shielded:   data[i].Shielded,
+			TValidAddr: data[i].TValidAddr,
+			ZValidAddr: data[i].ZValidAddr,
+		}
 
-		pwallets = append(pwallets, &data[i])
+		pwallets = append(pwallets, &tmp)
 	}
 
 	// for i2, v2 := range pwallets {
