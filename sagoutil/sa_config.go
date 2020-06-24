@@ -39,6 +39,13 @@ type ConfigChains struct {
 
 //SubAtomicConfInfo returns application's config params
 func SubAtomicConfInfo() SubAtomicConfig {
+
+	// dir, err := os.Getwd()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println("pwd: ", dir)
+
 	var conf SubAtomicConfig
 	confJSONContent, err := ioutil.ReadFile("config.json")
 	if err != nil {

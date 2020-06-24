@@ -33,5 +33,9 @@ func walletInfo(c pb.ShurliServiceClient) {
 	if err != nil {
 		log.Fatalf("Error while calling WalletInfo RPC: %v", err)
 	}
-	log.Printf("Response from WalletInfo: %v", res)
+	log.Printf("Response from WalletInfo: %v", res.GetWallets())
+
+	for i, v := range res.GetWallets() {
+		fmt.Println(i, ": ", v)
+	}
 }
