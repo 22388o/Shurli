@@ -22,7 +22,8 @@ func main() {
 
 	c := pb.NewShurliServiceClient(cc)
 
-	walletInfo(c)
+	// walletInfo(c)
+	OrderBook(c)
 }
 
 func walletInfo(c pb.ShurliServiceClient) {
@@ -36,6 +37,27 @@ func walletInfo(c pb.ShurliServiceClient) {
 	log.Printf("Response from WalletInfo: %v", res.GetWallets())
 
 	for i, v := range res.GetWallets() {
+		fmt.Println(i, ": ", v)
+	}
+}
+
+// OrderBook gets the list of Orders for selected coin pairs
+func OrderBook(c pb.ShurliServiceClient) {
+	fmt.Println("Shurli OrderBook RPC...")
+	req := &pb.OrderBookRequest{
+		Base:    "KMD",
+		Rel:     "PIRATE",
+		Results: "300",
+		SortBy:  "soon",
+	}
+
+	res, err := c.OrderBook(context.Background(), req)
+	if err != nil {
+		log.Fatalf("Error while calling OrderBook RPC: %v", err)
+	}
+	log.Printf("Response from OrderBook: %v", res.GetOrderList())
+
+	for i, v := range res.GetOrderList() {
 		fmt.Println(i, ": ", v)
 	}
 }

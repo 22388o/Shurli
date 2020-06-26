@@ -23,7 +23,49 @@ message WalletInfoResponse{
     repeated WalletInfo Wallets = 1;
 }
 
+message OrderData {
+    string Price = 1;
+	string MaxVolume = 2;
+	string DexPubkey = 3;
+	string Base = 4;
+	bool ZBase = 5;
+	string Rel = 6;
+	bool ZRel = 7;
+	int64 OrderID = 8;
+	string TimestampStr = 9;
+	string Timestamp = 10;
+	string Handle = 11;
+	string Pubkey = 12;
+	bool Authorized = 13;
+	double BaseBal = 14;
+	double ZBaseBal = 15;
+	double RelBal = 16;
+	double ZRelBal = 17;
+	string BaseIcon = 18;
+	string RelIcon = 19;
+}
+
+message OrderBookResponse {
+    string Base = 1;
+    string Rel = 2;
+    string Results = 3;
+    string SortBy = 4;
+    double BaseBal = 5;
+    double RelBal = 6;
+    string BaseIcon = 7;
+    string RelIcon = 8;
+    repeated OrderData OrderList = 9;
+}
+
+message OrderBookRequest {
+    string Base = 1;
+    string Rel = 2;
+    string Results = 3;
+    string SortBy = 4;
+}
+
 service ShurliService{
     // Return details of wallets which are supported by this Shurli
     rpc WalletInfo(WalletInfoRequest) returns (WalletInfoResponse) {};
+    rpc OrderBook(OrderBookRequest) returns (OrderBookResponse) {};
 }

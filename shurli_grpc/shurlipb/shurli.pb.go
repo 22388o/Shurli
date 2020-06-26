@@ -213,10 +213,362 @@ func (m *WalletInfoResponse) GetWallets() []*WalletInfo {
 	return nil
 }
 
+type OrderData struct {
+	Price                string   `protobuf:"bytes,1,opt,name=Price,proto3" json:"Price,omitempty"`
+	MaxVolume            string   `protobuf:"bytes,2,opt,name=MaxVolume,proto3" json:"MaxVolume,omitempty"`
+	DexPubkey            string   `protobuf:"bytes,3,opt,name=DexPubkey,proto3" json:"DexPubkey,omitempty"`
+	Base                 string   `protobuf:"bytes,4,opt,name=Base,proto3" json:"Base,omitempty"`
+	ZBase                bool     `protobuf:"varint,5,opt,name=ZBase,proto3" json:"ZBase,omitempty"`
+	Rel                  string   `protobuf:"bytes,6,opt,name=Rel,proto3" json:"Rel,omitempty"`
+	ZRel                 bool     `protobuf:"varint,7,opt,name=ZRel,proto3" json:"ZRel,omitempty"`
+	OrderID              int64    `protobuf:"varint,8,opt,name=OrderID,proto3" json:"OrderID,omitempty"`
+	TimestampStr         string   `protobuf:"bytes,9,opt,name=TimestampStr,proto3" json:"TimestampStr,omitempty"`
+	Timestamp            string   `protobuf:"bytes,10,opt,name=Timestamp,proto3" json:"Timestamp,omitempty"`
+	Handle               string   `protobuf:"bytes,11,opt,name=Handle,proto3" json:"Handle,omitempty"`
+	Pubkey               string   `protobuf:"bytes,12,opt,name=Pubkey,proto3" json:"Pubkey,omitempty"`
+	Authorized           bool     `protobuf:"varint,13,opt,name=Authorized,proto3" json:"Authorized,omitempty"`
+	BaseBal              float64  `protobuf:"fixed64,14,opt,name=BaseBal,proto3" json:"BaseBal,omitempty"`
+	ZBaseBal             float64  `protobuf:"fixed64,15,opt,name=ZBaseBal,proto3" json:"ZBaseBal,omitempty"`
+	RelBal               float64  `protobuf:"fixed64,16,opt,name=RelBal,proto3" json:"RelBal,omitempty"`
+	ZRelBal              float64  `protobuf:"fixed64,17,opt,name=ZRelBal,proto3" json:"ZRelBal,omitempty"`
+	BaseIcon             string   `protobuf:"bytes,18,opt,name=BaseIcon,proto3" json:"BaseIcon,omitempty"`
+	RelIcon              string   `protobuf:"bytes,19,opt,name=RelIcon,proto3" json:"RelIcon,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *OrderData) Reset()         { *m = OrderData{} }
+func (m *OrderData) String() string { return proto.CompactTextString(m) }
+func (*OrderData) ProtoMessage()    {}
+func (*OrderData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_89405f5ba4fb55f9, []int{3}
+}
+
+func (m *OrderData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderData.Unmarshal(m, b)
+}
+func (m *OrderData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderData.Marshal(b, m, deterministic)
+}
+func (m *OrderData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderData.Merge(m, src)
+}
+func (m *OrderData) XXX_Size() int {
+	return xxx_messageInfo_OrderData.Size(m)
+}
+func (m *OrderData) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderData proto.InternalMessageInfo
+
+func (m *OrderData) GetPrice() string {
+	if m != nil {
+		return m.Price
+	}
+	return ""
+}
+
+func (m *OrderData) GetMaxVolume() string {
+	if m != nil {
+		return m.MaxVolume
+	}
+	return ""
+}
+
+func (m *OrderData) GetDexPubkey() string {
+	if m != nil {
+		return m.DexPubkey
+	}
+	return ""
+}
+
+func (m *OrderData) GetBase() string {
+	if m != nil {
+		return m.Base
+	}
+	return ""
+}
+
+func (m *OrderData) GetZBase() bool {
+	if m != nil {
+		return m.ZBase
+	}
+	return false
+}
+
+func (m *OrderData) GetRel() string {
+	if m != nil {
+		return m.Rel
+	}
+	return ""
+}
+
+func (m *OrderData) GetZRel() bool {
+	if m != nil {
+		return m.ZRel
+	}
+	return false
+}
+
+func (m *OrderData) GetOrderID() int64 {
+	if m != nil {
+		return m.OrderID
+	}
+	return 0
+}
+
+func (m *OrderData) GetTimestampStr() string {
+	if m != nil {
+		return m.TimestampStr
+	}
+	return ""
+}
+
+func (m *OrderData) GetTimestamp() string {
+	if m != nil {
+		return m.Timestamp
+	}
+	return ""
+}
+
+func (m *OrderData) GetHandle() string {
+	if m != nil {
+		return m.Handle
+	}
+	return ""
+}
+
+func (m *OrderData) GetPubkey() string {
+	if m != nil {
+		return m.Pubkey
+	}
+	return ""
+}
+
+func (m *OrderData) GetAuthorized() bool {
+	if m != nil {
+		return m.Authorized
+	}
+	return false
+}
+
+func (m *OrderData) GetBaseBal() float64 {
+	if m != nil {
+		return m.BaseBal
+	}
+	return 0
+}
+
+func (m *OrderData) GetZBaseBal() float64 {
+	if m != nil {
+		return m.ZBaseBal
+	}
+	return 0
+}
+
+func (m *OrderData) GetRelBal() float64 {
+	if m != nil {
+		return m.RelBal
+	}
+	return 0
+}
+
+func (m *OrderData) GetZRelBal() float64 {
+	if m != nil {
+		return m.ZRelBal
+	}
+	return 0
+}
+
+func (m *OrderData) GetBaseIcon() string {
+	if m != nil {
+		return m.BaseIcon
+	}
+	return ""
+}
+
+func (m *OrderData) GetRelIcon() string {
+	if m != nil {
+		return m.RelIcon
+	}
+	return ""
+}
+
+type OrderBookResponse struct {
+	Base                 string       `protobuf:"bytes,1,opt,name=Base,proto3" json:"Base,omitempty"`
+	Rel                  string       `protobuf:"bytes,2,opt,name=Rel,proto3" json:"Rel,omitempty"`
+	Results              string       `protobuf:"bytes,3,opt,name=Results,proto3" json:"Results,omitempty"`
+	SortBy               string       `protobuf:"bytes,4,opt,name=SortBy,proto3" json:"SortBy,omitempty"`
+	BaseBal              float64      `protobuf:"fixed64,5,opt,name=BaseBal,proto3" json:"BaseBal,omitempty"`
+	RelBal               float64      `protobuf:"fixed64,6,opt,name=RelBal,proto3" json:"RelBal,omitempty"`
+	BaseIcon             string       `protobuf:"bytes,7,opt,name=BaseIcon,proto3" json:"BaseIcon,omitempty"`
+	RelIcon              string       `protobuf:"bytes,8,opt,name=RelIcon,proto3" json:"RelIcon,omitempty"`
+	OrderList            []*OrderData `protobuf:"bytes,9,rep,name=OrderList,proto3" json:"OrderList,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *OrderBookResponse) Reset()         { *m = OrderBookResponse{} }
+func (m *OrderBookResponse) String() string { return proto.CompactTextString(m) }
+func (*OrderBookResponse) ProtoMessage()    {}
+func (*OrderBookResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_89405f5ba4fb55f9, []int{4}
+}
+
+func (m *OrderBookResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderBookResponse.Unmarshal(m, b)
+}
+func (m *OrderBookResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderBookResponse.Marshal(b, m, deterministic)
+}
+func (m *OrderBookResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderBookResponse.Merge(m, src)
+}
+func (m *OrderBookResponse) XXX_Size() int {
+	return xxx_messageInfo_OrderBookResponse.Size(m)
+}
+func (m *OrderBookResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderBookResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderBookResponse proto.InternalMessageInfo
+
+func (m *OrderBookResponse) GetBase() string {
+	if m != nil {
+		return m.Base
+	}
+	return ""
+}
+
+func (m *OrderBookResponse) GetRel() string {
+	if m != nil {
+		return m.Rel
+	}
+	return ""
+}
+
+func (m *OrderBookResponse) GetResults() string {
+	if m != nil {
+		return m.Results
+	}
+	return ""
+}
+
+func (m *OrderBookResponse) GetSortBy() string {
+	if m != nil {
+		return m.SortBy
+	}
+	return ""
+}
+
+func (m *OrderBookResponse) GetBaseBal() float64 {
+	if m != nil {
+		return m.BaseBal
+	}
+	return 0
+}
+
+func (m *OrderBookResponse) GetRelBal() float64 {
+	if m != nil {
+		return m.RelBal
+	}
+	return 0
+}
+
+func (m *OrderBookResponse) GetBaseIcon() string {
+	if m != nil {
+		return m.BaseIcon
+	}
+	return ""
+}
+
+func (m *OrderBookResponse) GetRelIcon() string {
+	if m != nil {
+		return m.RelIcon
+	}
+	return ""
+}
+
+func (m *OrderBookResponse) GetOrderList() []*OrderData {
+	if m != nil {
+		return m.OrderList
+	}
+	return nil
+}
+
+type OrderBookRequest struct {
+	Base                 string   `protobuf:"bytes,1,opt,name=Base,proto3" json:"Base,omitempty"`
+	Rel                  string   `protobuf:"bytes,2,opt,name=Rel,proto3" json:"Rel,omitempty"`
+	Results              string   `protobuf:"bytes,3,opt,name=Results,proto3" json:"Results,omitempty"`
+	SortBy               string   `protobuf:"bytes,4,opt,name=SortBy,proto3" json:"SortBy,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *OrderBookRequest) Reset()         { *m = OrderBookRequest{} }
+func (m *OrderBookRequest) String() string { return proto.CompactTextString(m) }
+func (*OrderBookRequest) ProtoMessage()    {}
+func (*OrderBookRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_89405f5ba4fb55f9, []int{5}
+}
+
+func (m *OrderBookRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderBookRequest.Unmarshal(m, b)
+}
+func (m *OrderBookRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderBookRequest.Marshal(b, m, deterministic)
+}
+func (m *OrderBookRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderBookRequest.Merge(m, src)
+}
+func (m *OrderBookRequest) XXX_Size() int {
+	return xxx_messageInfo_OrderBookRequest.Size(m)
+}
+func (m *OrderBookRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderBookRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderBookRequest proto.InternalMessageInfo
+
+func (m *OrderBookRequest) GetBase() string {
+	if m != nil {
+		return m.Base
+	}
+	return ""
+}
+
+func (m *OrderBookRequest) GetRel() string {
+	if m != nil {
+		return m.Rel
+	}
+	return ""
+}
+
+func (m *OrderBookRequest) GetResults() string {
+	if m != nil {
+		return m.Results
+	}
+	return ""
+}
+
+func (m *OrderBookRequest) GetSortBy() string {
+	if m != nil {
+		return m.SortBy
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*WalletInfoRequest)(nil), "shurli.WalletInfoRequest")
 	proto.RegisterType((*WalletInfo)(nil), "shurli.WalletInfo")
 	proto.RegisterType((*WalletInfoResponse)(nil), "shurli.WalletInfoResponse")
+	proto.RegisterType((*OrderData)(nil), "shurli.OrderData")
+	proto.RegisterType((*OrderBookResponse)(nil), "shurli.OrderBookResponse")
+	proto.RegisterType((*OrderBookRequest)(nil), "shurli.OrderBookRequest")
 }
 
 func init() {
@@ -224,27 +576,47 @@ func init() {
 }
 
 var fileDescriptor_89405f5ba4fb55f9 = []byte{
-	// 306 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0xbd, 0x4e, 0xf3, 0x30,
-	0x14, 0x86, 0x3f, 0xf7, 0x27, 0x4d, 0x4f, 0xf5, 0x0d, 0x18, 0x81, 0x4c, 0x07, 0x14, 0x65, 0xca,
-	0x80, 0x8a, 0x54, 0xae, 0x80, 0x48, 0x0c, 0x5d, 0x18, 0x92, 0xaa, 0x48, 0xdd, 0x5c, 0xfb, 0xa0,
-	0x46, 0x35, 0x71, 0x89, 0x53, 0x24, 0x6e, 0x88, 0xeb, 0x44, 0xb6, 0x93, 0x26, 0x48, 0xdd, 0xce,
-	0xf3, 0x3e, 0x6f, 0xdd, 0xe8, 0x1c, 0xb8, 0x31, 0xfb, 0x53, 0xa5, 0x8a, 0xe3, 0xee, 0xd1, 0x0f,
-	0x8b, 0x63, 0xa5, 0x6b, 0x4d, 0x03, 0x4f, 0xf1, 0x35, 0x5c, 0xbd, 0x71, 0xa5, 0xb0, 0x5e, 0x95,
-	0xef, 0x3a, 0xc3, 0xcf, 0x13, 0x9a, 0x3a, 0xfe, 0x19, 0x00, 0x74, 0x29, 0xa5, 0x30, 0x7a, 0xe5,
-	0x1f, 0xc8, 0x48, 0x44, 0x92, 0x69, 0xe6, 0x66, 0x7a, 0x0b, 0xc1, 0xba, 0x10, 0x07, 0xac, 0xd8,
-	0xc0, 0xa5, 0x0d, 0xd9, 0xee, 0x4a, 0xe8, 0x92, 0x0d, 0x7d, 0xd7, 0xce, 0xb6, 0x9b, 0xd7, 0xbc,
-	0x3e, 0x19, 0x36, 0xf2, 0x5d, 0x4f, 0x94, 0xc1, 0x24, 0xe5, 0x8a, 0x97, 0x02, 0xd9, 0x38, 0x22,
-	0x09, 0xc9, 0x5a, 0xa4, 0x73, 0x08, 0xb7, 0xad, 0x0a, 0x9c, 0x3a, 0xb3, 0x7d, 0x2d, 0x55, 0x5a,
-	0x1c, 0x0c, 0x9b, 0x44, 0x24, 0x19, 0x67, 0x0d, 0xb9, 0x7f, 0xf9, 0x2e, 0x05, 0x4a, 0x16, 0x46,
-	0x24, 0x09, 0xb3, 0x86, 0xec, 0x5b, 0xf9, 0xbe, 0x40, 0x25, 0x51, 0xb2, 0xa9, 0x33, 0x67, 0xa6,
-	0xf7, 0x00, 0xeb, 0x0d, 0x57, 0x85, 0x7c, 0x96, 0xb2, 0x62, 0xe0, 0x6c, 0x2f, 0xb1, 0x7e, 0xdb,
-	0xf9, 0x99, 0xf7, 0x5d, 0x12, 0xa7, 0x40, 0xfb, 0xdb, 0x33, 0x47, 0x5d, 0x1a, 0xa4, 0x0f, 0x30,
-	0xf1, 0xa9, 0x61, 0x24, 0x1a, 0x26, 0xb3, 0x25, 0x5d, 0x34, 0xbb, 0xef, 0x95, 0xdb, 0xca, 0x72,
-	0x03, 0xff, 0x73, 0x67, 0x73, 0xac, 0xbe, 0x0a, 0x81, 0xf4, 0xe5, 0xcf, 0xf2, 0xef, 0x2e, 0xfc,
-	0xd6, 0x9f, 0x69, 0x3e, 0xbf, 0xa4, 0xfc, 0x37, 0xc4, 0xff, 0x52, 0xd8, 0x86, 0xed, 0xe9, 0x77,
-	0x81, 0x3b, 0xfa, 0xd3, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xa8, 0x75, 0x5b, 0x40, 0x0d, 0x02,
-	0x00, 0x00,
+	// 631 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x54, 0xdd, 0x4e, 0xdc, 0x3c,
+	0x10, 0xfd, 0xb2, 0xcb, 0xfe, 0x64, 0x80, 0xaf, 0xac, 0x69, 0x91, 0x59, 0x55, 0x68, 0x95, 0xab,
+	0xbd, 0xa8, 0x40, 0xa2, 0x4f, 0x40, 0x44, 0xa5, 0x22, 0xf5, 0x07, 0x79, 0x11, 0x95, 0x72, 0x67,
+	0x12, 0x57, 0xa4, 0xeb, 0x4d, 0xb6, 0xb1, 0x53, 0x41, 0xaf, 0xfb, 0x14, 0x7d, 0x80, 0xbe, 0x62,
+	0x6f, 0x2b, 0x8f, 0xed, 0xfc, 0x48, 0xf4, 0xb2, 0x77, 0x73, 0xce, 0x99, 0x4c, 0x3c, 0x67, 0xc6,
+	0x86, 0x17, 0xea, 0xbe, 0xae, 0x64, 0xbe, 0xbd, 0x3b, 0xb3, 0xc1, 0xe9, 0xb6, 0x2a, 0x75, 0x49,
+	0xc6, 0x16, 0x45, 0x87, 0x30, 0xfb, 0xc4, 0xa5, 0x14, 0xfa, 0xaa, 0xf8, 0x5c, 0x32, 0xf1, 0xb5,
+	0x16, 0x4a, 0x47, 0xbf, 0x06, 0x00, 0x2d, 0x4b, 0x08, 0xec, 0x7c, 0xe0, 0x1b, 0x41, 0x83, 0x45,
+	0xb0, 0x0c, 0x19, 0xc6, 0xe4, 0x08, 0xc6, 0x37, 0x79, 0xba, 0x16, 0x15, 0x1d, 0x20, 0xeb, 0x90,
+	0xc9, 0xbd, 0x4a, 0xcb, 0x82, 0x0e, 0x6d, 0xae, 0x89, 0x4d, 0xee, 0x4a, 0x73, 0x5d, 0x2b, 0xba,
+	0x63, 0x73, 0x2d, 0x22, 0x14, 0x26, 0x31, 0x97, 0xbc, 0x48, 0x05, 0x1d, 0x2d, 0x82, 0x65, 0xc0,
+	0x3c, 0x24, 0x73, 0x98, 0x26, 0x5e, 0x1a, 0xa3, 0xd4, 0x60, 0x53, 0x2d, 0x96, 0x65, 0xba, 0x56,
+	0x74, 0xb2, 0x08, 0x96, 0x23, 0xe6, 0x10, 0xfe, 0xe5, 0xb1, 0x48, 0x45, 0x46, 0xa7, 0x8b, 0x60,
+	0x39, 0x65, 0x0e, 0x99, 0x5a, 0xab, 0xfb, 0x5c, 0xc8, 0x4c, 0x64, 0x34, 0x44, 0xa5, 0xc1, 0xe4,
+	0x04, 0xe0, 0xe6, 0x96, 0xcb, 0x3c, 0xbb, 0xc8, 0xb2, 0x8a, 0x02, 0xaa, 0x1d, 0xc6, 0xe8, 0x49,
+	0xab, 0xef, 0x5a, 0xbd, 0x65, 0xa2, 0x18, 0x48, 0xd7, 0x3d, 0xb5, 0x2d, 0x0b, 0x25, 0xc8, 0x2b,
+	0x98, 0x58, 0x56, 0xd1, 0x60, 0x31, 0x5c, 0xee, 0x9e, 0x93, 0x53, 0xe7, 0x7d, 0x27, 0xd9, 0xa7,
+	0x44, 0xbf, 0x87, 0x10, 0x7e, 0xac, 0x32, 0x51, 0x5d, 0x72, 0xcd, 0xc9, 0x73, 0x18, 0x5d, 0x57,
+	0x79, 0xea, 0xcd, 0xb6, 0x80, 0xbc, 0x84, 0xf0, 0x3d, 0x7f, 0xb8, 0x2d, 0x65, 0xbd, 0x11, 0xce,
+	0xf0, 0x96, 0x30, 0xea, 0xa5, 0x78, 0xb8, 0xae, 0xef, 0xd6, 0xe2, 0xd1, 0x19, 0xdf, 0x12, 0x66,
+	0x22, 0x31, 0x57, 0xc2, 0x79, 0x8f, 0xb1, 0xf9, 0x4b, 0x82, 0xe4, 0x08, 0x5b, 0xb2, 0x80, 0x1c,
+	0xc0, 0x90, 0x09, 0x89, 0x86, 0x87, 0xcc, 0x84, 0xe6, 0xdb, 0xc4, 0x50, 0x13, 0x4c, 0xc3, 0xd8,
+	0x4c, 0x0d, 0x8f, 0x7b, 0x75, 0x89, 0x46, 0x0f, 0x99, 0x87, 0x24, 0x82, 0xbd, 0x9b, 0x7c, 0x23,
+	0x94, 0xe6, 0x9b, 0xed, 0x4a, 0x57, 0xe8, 0x76, 0xc8, 0x7a, 0x9c, 0x39, 0x6b, 0x83, 0xd1, 0xf0,
+	0x90, 0xb5, 0x84, 0x99, 0xe1, 0x5b, 0x5e, 0x64, 0x52, 0xa0, 0xd7, 0x21, 0x73, 0xc8, 0xf0, 0xae,
+	0xbd, 0x3d, 0xcb, 0xbb, 0xde, 0x4e, 0x00, 0x2e, 0x6a, 0x7d, 0x5f, 0x56, 0xf9, 0x77, 0x91, 0xd1,
+	0x7d, 0x3b, 0x9f, 0x96, 0xb1, 0x1b, 0xa6, 0x44, 0xcc, 0x25, 0xfd, 0xdf, 0x6f, 0x18, 0x42, 0xb7,
+	0x61, 0x56, 0x7a, 0xd6, 0x6c, 0x98, 0xd5, 0x8e, 0x60, 0xcc, 0x84, 0x34, 0xca, 0x01, 0x2a, 0x0e,
+	0x99, 0x6a, 0x89, 0x13, 0x66, 0xb6, 0x9a, 0x83, 0xa6, 0x9a, 0xf9, 0x18, 0x37, 0x9f, 0xe0, 0x09,
+	0x1b, 0x6c, 0xbe, 0x62, 0x42, 0xa2, 0x74, 0x88, 0x92, 0x87, 0xd1, 0x8f, 0x01, 0xcc, 0xd0, 0xbb,
+	0xb8, 0x2c, 0xd7, 0xcd, 0xf6, 0xf8, 0x79, 0x05, 0x9d, 0x79, 0xb9, 0xc9, 0x0c, 0xda, 0xc9, 0x60,
+	0x55, 0x55, 0x4b, 0xad, 0xdc, 0xc4, 0x3d, 0xc4, 0x7b, 0x50, 0x56, 0x3a, 0x7e, 0x6c, 0x6e, 0x1b,
+	0xa2, 0xae, 0x17, 0xa3, 0xbe, 0x17, 0x6d, 0xbf, 0xe3, 0x5e, 0xbf, 0xdd, 0xae, 0x26, 0x7f, 0xef,
+	0x6a, 0xda, 0xeb, 0x8a, 0x9c, 0xb9, 0x75, 0x7e, 0x97, 0x2b, 0x4d, 0x43, 0xdc, 0xff, 0x99, 0xdf,
+	0xff, 0x66, 0xcf, 0x59, 0x9b, 0x13, 0x7d, 0x81, 0x83, 0x8e, 0x0b, 0xf8, 0x02, 0xfd, 0x2b, 0x13,
+	0xce, 0x7f, 0x06, 0xb0, 0xbf, 0xc2, 0xb3, 0xac, 0x44, 0xf5, 0xcd, 0x5c, 0xad, 0x37, 0xbd, 0xa7,
+	0xee, 0xf8, 0x89, 0x9b, 0x6a, 0x8f, 0x34, 0x9f, 0x3f, 0x25, 0xd9, 0x99, 0x45, 0xff, 0x91, 0xd8,
+	0x75, 0x6d, 0x9a, 0x20, 0xb4, 0xd7, 0x6f, 0xa7, 0xaf, 0xf9, 0xf1, 0x13, 0x8a, 0xaf, 0x11, 0x43,
+	0x32, 0xf5, 0x8f, 0xf5, 0xdd, 0x18, 0x9f, 0xe9, 0xd7, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0xa9,
+	0x83, 0x12, 0xb0, 0xbf, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -259,8 +631,9 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ShurliServiceClient interface {
-	//Unary
+	// Return details of wallets which are supported by this Shurli
 	WalletInfo(ctx context.Context, in *WalletInfoRequest, opts ...grpc.CallOption) (*WalletInfoResponse, error)
+	OrderBook(ctx context.Context, in *OrderBookRequest, opts ...grpc.CallOption) (*OrderBookResponse, error)
 }
 
 type shurliServiceClient struct {
@@ -280,10 +653,20 @@ func (c *shurliServiceClient) WalletInfo(ctx context.Context, in *WalletInfoRequ
 	return out, nil
 }
 
+func (c *shurliServiceClient) OrderBook(ctx context.Context, in *OrderBookRequest, opts ...grpc.CallOption) (*OrderBookResponse, error) {
+	out := new(OrderBookResponse)
+	err := c.cc.Invoke(ctx, "/shurli.ShurliService/OrderBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShurliServiceServer is the server API for ShurliService service.
 type ShurliServiceServer interface {
-	//Unary
+	// Return details of wallets which are supported by this Shurli
 	WalletInfo(context.Context, *WalletInfoRequest) (*WalletInfoResponse, error)
+	OrderBook(context.Context, *OrderBookRequest) (*OrderBookResponse, error)
 }
 
 // UnimplementedShurliServiceServer can be embedded to have forward compatible implementations.
@@ -292,6 +675,9 @@ type UnimplementedShurliServiceServer struct {
 
 func (*UnimplementedShurliServiceServer) WalletInfo(ctx context.Context, req *WalletInfoRequest) (*WalletInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WalletInfo not implemented")
+}
+func (*UnimplementedShurliServiceServer) OrderBook(ctx context.Context, req *OrderBookRequest) (*OrderBookResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderBook not implemented")
 }
 
 func RegisterShurliServiceServer(s *grpc.Server, srv ShurliServiceServer) {
@@ -316,6 +702,24 @@ func _ShurliService_WalletInfo_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShurliService_OrderBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderBookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShurliServiceServer).OrderBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shurli.ShurliService/OrderBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShurliServiceServer).OrderBook(ctx, req.(*OrderBookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _ShurliService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "shurli.ShurliService",
 	HandlerType: (*ShurliServiceServer)(nil),
@@ -323,6 +727,10 @@ var _ShurliService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "WalletInfo",
 			Handler:    _ShurliService_WalletInfo_Handler,
+		},
+		{
+			MethodName: "OrderBook",
+			Handler:    _ShurliService_OrderBook_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

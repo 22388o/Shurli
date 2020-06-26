@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
 	"github.com/Meshbits/shurli/sagoutil"
 	"github.com/Meshbits/shurli/shurli_grpc/shurlipb"
 	pb "github.com/Meshbits/shurli/shurli_grpc/shurlipb"
+	"github.com/satindergrewal/kmdgo"
 	"google.golang.org/grpc"
 )
 
@@ -16,7 +18,7 @@ type server struct {
 	pb.UnimplementedShurliServiceServer
 }
 
-func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) (*shurlipb.WalletInfoResponse, error) {
+func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) (*pb.WalletInfoResponse, error) {
 	fmt.Printf("WalletInfo function was invoked with %v\n", req)
 	var conf sagoutil.SubAtomicConfig = sagoutil.SubAtomicConfInfo()
 
@@ -38,9 +40,9 @@ func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) (*shur
 	return res, nil
 }
 
-func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*shurlipb.WalletInfo {
+func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*pb.WalletInfo {
 
-	var pwallets []*shurlipb.WalletInfo
+	var pwallets []*pb.WalletInfo
 
 	for i := range data {
 		// fmt.Println(&v)
@@ -70,6 +72,107 @@ func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*shurlipb.WalletInfo {
 	// }
 
 	return pwallets
+}
+
+func (*server) OrderBook(ctx context.Context, req *pb.OrderBookRequest) (*pb.OrderBookResponse, error) {
+	fmt.Printf("OrderBook function was invoked with %v\n", req)
+
+	var orderlist []sagoutil.OrderData
+	orderlist = sagoutil.OrderBookList(req.GetBase(), req.GetRel(), req.GetResults(), req.GetSortBy())
+
+	var baseRelWallet = []kmdgo.AppType{kmdgo.AppType(req.GetBase()), kmdgo.AppType(req.GetRel())}
+
+	var wallets []sagoutil.WInfo
+	wallets = sagoutil.WalletInfo(baseRelWallet)
+	// fmt.Println(wallets[0].Balance)
+	// fmt.Println(wallets[0].ZBalance)
+	// fmt.Println(wallets[1].Balance)
+	// fmt.Println(wallets[1].ZBalance)
+
+	var relBalance, baseBalance float64
+	if strings.HasPrefix(req.GetBase(), "z") {
+		baseBalance = wallets[0].ZBalance
+	} else if strings.HasPrefix(req.GetBase(), "PIRATE") {
+		baseBalance = wallets[0].ZBalance
+	} else {
+		baseBalance = wallets[0].Balance
+	}
+
+	if strings.HasPrefix(req.GetRel(), "z") {
+		relBalance = wallets[1].ZBalance
+	} else if strings.HasPrefix(req.GetRel(), "PIRATE") {
+		relBalance = wallets[1].ZBalance
+	} else {
+		relBalance = wallets[1].Balance
+	}
+
+	// data := OrderPost{
+	// 	Base:      ,
+	// 	Rel:       ,
+	// 	Results:   req.GetResults(),
+	// 	SortBy:    req.GetSortBy(),
+	// 	BaseBal:   baseBalance,
+	// 	RelBal:    relBalance,
+	// 	BaseIcon:  wallets[0].Icon,
+	// 	RelIcon:   wallets[1].Icon,
+	// 	OrderList: orderlist,
+	// }
+
+	res := &pb.OrderBookResponse{
+		Base:      req.GetBase(),
+		Rel:       req.GetRel(),
+		Results:   req.GetResults(),
+		SortBy:    req.GetSortBy(),
+		BaseBal:   baseBalance,
+		RelBal:    relBalance,
+		BaseIcon:  wallets[0].Icon,
+		RelIcon:   wallets[1].Icon,
+		OrderList: dataToShurliPbOrderData(orderlist),
+	}
+
+	return res, nil
+}
+
+func dataToShurliPbOrderData(data []sagoutil.OrderData) []*pb.OrderData {
+
+	var porderlist []*pb.OrderData
+
+	for i := range data {
+		// fmt.Println(&v)
+		// fmt.Printf("Wallet[%d]: %v\n", i, v)
+		// fmt.Printf("Wallet[%d] memory address: %p\n", i, &data[i])
+
+		// fmt.Println(porderlist[i])
+		tmp := shurlipb.OrderData{
+			Price:        data[i].Price,
+			MaxVolume:    data[i].MaxVolume,
+			DexPubkey:    data[i].DexPubkey,
+			Base:         data[i].Base,
+			ZBase:        data[i].ZBase,
+			Rel:          data[i].Rel,
+			ZRel:         data[i].ZRel,
+			OrderID:      data[i].OrderID,
+			TimestampStr: data[i].TimestampStr,
+			Timestamp:    data[i].Timestamp,
+			Handle:       data[i].Handle,
+			Pubkey:       data[i].Pubkey,
+			Authorized:   data[i].Authorized,
+			BaseBal:      data[i].BaseBal,
+			ZBaseBal:     data[i].ZBaseBal,
+			RelBal:       data[i].RelBal,
+			ZRelBal:      data[i].ZRelBal,
+			BaseIcon:     data[i].BaseIcon,
+			RelIcon:      data[i].RelIcon,
+		}
+
+		porderlist = append(porderlist, &tmp)
+	}
+
+	// for i2, v2 := range porderlist {
+	// 	fmt.Printf("pOrderlist[%d]: %v\n", i2, v2)
+	// }
+
+	return porderlist
 }
 
 func main() {
