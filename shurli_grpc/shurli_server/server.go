@@ -12,6 +12,8 @@ import (
 	pb "github.com/Meshbits/shurli/shurli_grpc/shurlipb"
 	"github.com/satindergrewal/kmdgo"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type server struct {
@@ -76,6 +78,12 @@ func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*pb.WalletInfo {
 
 func (*server) OrderBook(ctx context.Context, req *pb.OrderBookRequest) (*pb.OrderBookResponse, error) {
 	fmt.Printf("OrderBook function was invoked with %v\n", req)
+
+	if ctx.Err() == context.Canceled {
+		// the client canceled the request
+		fmt.Println("The client canceled the request!")
+		return nil, status.Error(codes.DeadlineExceeded, "the client canceled the request")
+	}
 
 	var orderlist []sagoutil.OrderData
 	orderlist = sagoutil.OrderBookList(req.GetBase(), req.GetRel(), req.GetResults(), req.GetSortBy())

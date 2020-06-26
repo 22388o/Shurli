@@ -4,9 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	pb "github.com/Meshbits/shurli/shurli_grpc/shurlipb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func main() {
@@ -22,8 +25,8 @@ func main() {
 
 	c := pb.NewShurliServiceClient(cc)
 
-	// walletInfo(c)
-	OrderBook(c)
+	walletInfo(c)
+	// OrderBook(c, 20*time.Second)
 }
 
 func walletInfo(c pb.ShurliServiceClient) {
@@ -42,8 +45,9 @@ func walletInfo(c pb.ShurliServiceClient) {
 }
 
 // OrderBook gets the list of Orders for selected coin pairs
-func OrderBook(c pb.ShurliServiceClient) {
+func OrderBook(c pb.ShurliServiceClient, timeout time.Duration) {
 	fmt.Println("Shurli OrderBook RPC...")
+
 	req := &pb.OrderBookRequest{
 		Base:    "KMD",
 		Rel:     "PIRATE",
@@ -51,9 +55,22 @@ func OrderBook(c pb.ShurliServiceClient) {
 		SortBy:  "soon",
 	}
 
-	res, err := c.OrderBook(context.Background(), req)
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+
+	res, err := c.OrderBook(ctx, req)
 	if err != nil {
-		log.Fatalf("Error while calling OrderBook RPC: %v", err)
+		statusErr, ok := status.FromError(err)
+		if ok {
+			if statusErr.Code() == codes.DeadlineExceeded {
+				fmt.Println("Timeout was hit! Deadline was exceeded")
+			} else {
+				fmt.Printf("Unexpected Error: %v", statusErr)
+			}
+		} else {
+			log.Fatalf("error while calling OrderBook RPC: %v", err)
+		}
+		return
 	}
 	log.Printf("Response from OrderBook: %v", res.GetOrderList())
 
