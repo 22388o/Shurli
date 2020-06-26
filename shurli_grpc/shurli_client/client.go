@@ -25,8 +25,8 @@ func main() {
 
 	c := pb.NewShurliServiceClient(cc)
 
-	walletInfo(c)
-	// OrderBook(c, 20*time.Second)
+	// walletInfo(c)
+	OrderBook(c, 20*time.Second)
 }
 
 func walletInfo(c pb.ShurliServiceClient) {
@@ -73,6 +73,15 @@ func OrderBook(c pb.ShurliServiceClient, timeout time.Duration) {
 		return
 	}
 	log.Printf("Response from OrderBook: %v", res.GetOrderList())
+
+	fmt.Println("Base: ", res.GetBase())
+	fmt.Println("Rel: ", res.GetRel())
+	fmt.Println("Results: ", res.GetResults())
+	fmt.Println("SortBy: ", res.GetSortBy())
+	fmt.Println("BaseBal: ", res.GetBaseBal())
+	fmt.Println("RelBal: ", res.GetRelBal())
+	fmt.Println("BaseIcon: ", res.GetBaseIcon())
+	fmt.Println("RelIcon: ", res.GetRelIcon())
 
 	for i, v := range res.GetOrderList() {
 		fmt.Println(i, ": ", v)
