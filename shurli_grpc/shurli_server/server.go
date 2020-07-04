@@ -44,6 +44,8 @@ func (*server) WalletInfo(ctx context.Context, req *pb.WalletInfoRequest) (*pb.W
 
 func dataToShurliPbWalletInfo(data []sagoutil.WInfo) []*pb.WalletInfo {
 
+	fmt.Println(len(data))
+
 	var pwallets []*pb.WalletInfo
 
 	for i := range data {
