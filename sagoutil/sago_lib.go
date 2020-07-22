@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -18,6 +17,19 @@ import (
 
 	"github.com/satindergrewal/kmdgo"
 )
+
+// DexP2pChain which shurli queries for DEXP2P API
+var DexP2pChain string = "SHURLI0"
+
+// ShurliRootDir returns Shurli root directory path
+func ShurliRootDir() string {
+	currentDir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	Log.Println(currentDir)
+	return currentDir
+}
 
 // WInfo type stores data to display on Wallet info screen
 type WInfo struct {
@@ -40,7 +52,7 @@ func WalletInfo(chains []kmdgo.AppType) []WInfo {
 
 	// fmt.Println(chains)
 
-	stats, err := kmdgo.NewAppType("DEX").DEXStats()
+	stats, err := kmdgo.NewAppType(kmdgo.AppType(DexP2pChain)).DEXStats()
 	if err != nil {
 		Log.Printf("Code: %v\n", stats.Error.Code)
 		Log.Printf("Message: %v\n\n", stats.Error.Message)
@@ -119,13 +131,14 @@ func WalletInfo(chains []kmdgo.AppType) []WInfo {
 				if err != nil {
 					Log.Printf("Code: %v\n", vldadr.Error.Code)
 					Log.Printf("Message: %v\n\n", vldadr.Error.Message)
-					log.Fatalln("Err happened", err)
+					Log.Println("Err happened", err)
 				}
 
-				if math.Round(gb.Result.Verificationprogress) != 1 {
-					tempSyncStatus = false
-				} else {
+				// if math.Round(gb.Result.Verificationprogress) != 1 {
+				if gb.Result.Verificationprogress >= 0.9999995 {
 					tempSyncStatus = true
+				} else {
+					tempSyncStatus = false
 				}
 
 				// if info.Result.Longestchain != info.Result.Blocks {
@@ -150,7 +163,7 @@ func WalletInfo(chains []kmdgo.AppType) []WInfo {
 					if err != nil {
 						Log.Printf("Code: %v\n", zvldadr.Error.Code)
 						Log.Printf("Message: %v\n\n", zvldadr.Error.Message)
-						log.Fatalln("Err happened", err)
+						Log.Println("Err happened", err)
 					}
 
 					// Get balance of Shielded address
@@ -218,8 +231,7 @@ func DEXHandles() []DEXHandle {
 
 	// handles = append(handles, DEXHandle{"03732f8ef851ff234c74d0df575c2c5b159e2bab3faca4ec52b3f217d5cda5361d", "satinder", "01b5d5b1991152fd45e4ba7005a5a752c2018634a9a6cdeb06b633e731e7b5f46b"})
 
-	var appName kmdgo.AppType
-	appName = `DEX`
+	appName := kmdgo.AppType(DexP2pChain)
 
 	var list kmdgo.DEXList
 
@@ -370,8 +382,7 @@ func IsLower(s string) bool {
 func OrderBookList(base, rel, maxentries, sortby string) []OrderData {
 	var orderList []OrderData
 
-	var appName kmdgo.AppType
-	appName = `DEX`
+	appName := kmdgo.AppType(DexP2pChain)
 
 	var obook kmdgo.DEXOrderbook
 
@@ -387,17 +398,17 @@ func OrderBookList(base, rel, maxentries, sortby string) []OrderData {
 	// fmt.Println(args)
 
 	// Debug outputs
-	// fmt.Println("compiled command is:")
-	// fmt.Println("dex-cli DEX_orderbook", maxentries, args[1], base, rel, " | jq .asks")
-	// fmt.Println(`
-	// from Asks :-
-	// buying = ` + base + `
-	// selling = ` + rel + `
+	fmt.Println("compiled command is:")
+	fmt.Println("dex-cli DEX_orderbook", maxentries, args[1], base, rel, " | jq .asks")
+	fmt.Println(`
+	from Asks :-
+	buying = ` + base + `
+	selling = ` + rel + `
 
-	// from Bids :-
-	// buying = ` + rel + `
-	// selling = ` + base + `
-	// `)
+	from Bids :-
+	buying = ` + rel + `
+	selling = ` + base + `
+	`)
 
 	obook, err := appName.DEXOrderbook(args)
 	if err != nil {
@@ -483,8 +494,7 @@ func OrderID(id string) OrderData {
 
 	var orderData OrderData
 
-	var appName kmdgo.AppType
-	appName = `DEX`
+	appName := kmdgo.AppType(DexP2pChain)
 
 	var orderid kmdgo.DEXGet
 
@@ -592,7 +602,7 @@ func TxIDFromOpID(coin, opid string) (string, error) {
 	if err != nil {
 		fmt.Printf("Code: %v\n", oprst.Error.Code)
 		fmt.Printf("Message: %v\n\n", oprst.Error.Message)
-		log.Fatalln("Err happened", err)
+		Log.Println("Err happened", err)
 	}
 
 	for _, v := range oprst.Result {
