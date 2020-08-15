@@ -74,7 +74,7 @@ class _DashboardState extends State<Dashboard> {
         coinTicker: list[i].ticker,
         coinIcon: list[i].icon,
         isSynced: list[i].synced,
-        isConnected: true,
+        isConnected: list[i].status,
       ),);
     }
       // print(_tempCardList);

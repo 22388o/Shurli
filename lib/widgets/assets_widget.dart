@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AssetsCard extends StatelessWidget {
-  final String coinIcon, coinName, coinTicker, coinBalance;
-  final bool isSynced, isConnected;
+  final String coinIcon, coinName, coinTicker, coinBalance, isConnected;
+  final bool isSynced;
 
   AssetsCard(
       {this.coinIcon,
@@ -47,23 +47,31 @@ class AssetsCard extends StatelessWidget {
                         ),
                       ),
                 SizedBox(height: 5.0),
-                isConnected
-                    ? Tooltip(
-                        message: 'Connected',
+                Tooltip(
+                        message: isConnected,
                         child: FaIcon(
                           FontAwesomeIcons.lightShieldCheck,
                           color: Colors.lightBlueAccent,
                           size: 15.0,
                         ),
                       )
-                    : Tooltip(
-                        message: 'Not connected',
-                        child: FaIcon(
-                          FontAwesomeIcons.lightLink,
-                          color: Colors.redAccent,
-                          size: 15.0,
-                        ),
-                      ),
+                // isConnected
+                //     ? Tooltip(
+                //         message: 'Connected',
+                //         child: FaIcon(
+                //           FontAwesomeIcons.lightShieldCheck,
+                //           color: Colors.lightBlueAccent,
+                //           size: 15.0,
+                //         ),
+                //       )
+                //     : Tooltip(
+                //         message: 'Not connected',
+                //         child: FaIcon(
+                //           FontAwesomeIcons.lightLink,
+                //           color: Colors.redAccent,
+                //           size: 15.0,
+                //         ),
+                //       ),
               ],
             ),
           ),
