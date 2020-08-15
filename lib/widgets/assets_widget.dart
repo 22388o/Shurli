@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AssetsCard extends StatelessWidget {
-  final String coinIcon, coinName, coinTicker, coinBalance, isConnected;
-  final bool isSynced;
+  final String coinIcon,
+      coinName,
+      coinTicker,
+      coinBalance,
+      coinZBalance,
+      isConnected;
+  final bool isSynced, isShielded;
 
   AssetsCard(
       {this.coinIcon,
       this.coinName,
       this.coinTicker,
       this.coinBalance,
+      this.coinZBalance,
       this.isSynced,
+      this.isShielded,
       this.isConnected});
 
   @override
@@ -48,13 +55,13 @@ class AssetsCard extends StatelessWidget {
                       ),
                 SizedBox(height: 5.0),
                 Tooltip(
-                        message: isConnected,
-                        child: FaIcon(
-                          FontAwesomeIcons.lightShieldCheck,
-                          color: Colors.lightBlueAccent,
-                          size: 15.0,
-                        ),
-                      )
+                  message: isConnected,
+                  child: FaIcon(
+                    FontAwesomeIcons.lightShieldCheck,
+                    color: Colors.lightBlueAccent,
+                    size: 15.0,
+                  ),
+                )
                 // isConnected
                 //     ? Tooltip(
                 //         message: 'Connected',
@@ -95,40 +102,59 @@ class AssetsCard extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(coinBalance),
-                    Text(
-                      coinTicker,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
-                        fontSize: 12.0,
+            child: isShielded
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('$coinBalance '),
+                          Text(
+                            coinTicker,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('$coinBalance '),
-                    Text(
-                      coinTicker,
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
-                        fontSize: 12.0,
+                      SizedBox(
+                        height: 5.0,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('$coinZBalance '),
+                          Text(
+                            'Z' + coinTicker,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('$coinBalance '),
+                          Text(
+                            coinTicker,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
           ),
         ]),
       ),

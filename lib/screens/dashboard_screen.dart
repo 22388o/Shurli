@@ -67,14 +67,17 @@ class _DashboardState extends State<Dashboard> {
     list = res.wallets;
     List<AssetsCard> _tempCardList = List<AssetsCard>();
     for (var i=0; i<list.length; i++) {
-      // print(list[i].name);
+      print(list[i].name);
+      print(list[i].shielded);
       _tempCardList.insert(i, AssetsCard(
         coinName: list[i].name,
         coinBalance: list[i].balance.toString(),
+        coinZBalance: list[i].zBalance.toString(),
         coinTicker: list[i].ticker,
         coinIcon: list[i].icon,
         isSynced: list[i].synced,
         isConnected: list[i].status,
+        isShielded: list[i].shielded,
       ),);
     }
       // print(_tempCardList);
