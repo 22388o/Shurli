@@ -2,6 +2,7 @@ import 'package:Shurli/screens/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:Shurli/theme_data.dart';
 import 'package:Shurli/widgets/assets_widget.dart';
+import 'package:Shurli/services/shurli_service.dart';
 
 class Dashboard extends StatefulWidget {
   static String id = 'dashboard_screen';
@@ -11,11 +12,19 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<AssetsCard> cardList = List<AssetsCard>();
+
+  @override
+  void initState() {
+    _walletInfo();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    MediaQueryData queryData;
-    queryData = MediaQuery.of(context);
-    print(queryData.size.width);
+    // MediaQueryData queryData;
+    // queryData = MediaQuery.of(context);
+    // print(queryData.size.width);
     return Scaffold(
         body: Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -44,60 +53,33 @@ class _DashboardState extends State<Dashboard> {
             height: 100,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView(children: [
-                AssetsCard(
-                  coinName: 'Komodo',
-                  coinBalance: '4.7880803',
-                  coinTicker: 'KMD',
-                  coinIcon: 'kmd',
-                  isSynced: true,
-                  isConnected: true,
-                ),
-                AssetsCard(
-                  coinName: 'Pirate',
-                  coinBalance: '4.7880803',
-                  coinTicker: 'ARRR',
-                  coinIcon: 'arrr',
-                  isSynced: false,
-                  isConnected: true,
-                ),
-                AssetsCard(
-                  coinName: 'DEX',
-                  coinBalance: '4.7880803',
-                  coinTicker: 'DEX',
-                  coinIcon: 'dex',
-                  isSynced: true,
-                  isConnected: true,
-                ),
-                AssetsCard(
-                  coinName: 'Marmara',
-                  coinBalance: '4.7880803',
-                  coinTicker: 'MCL',
-                  coinIcon: 'mcl',
-                  isSynced: false,
-                  isConnected: true,
-                ),
-                AssetsCard(
-                  coinName: 'VerusCoin',
-                  coinBalance: '4.7880803',
-                  coinTicker: 'VRSC',
-                  coinIcon: 'vrsc',
-                  isSynced: true,
-                  isConnected: true,
-                ),
-                AssetsCard(
-                  coinName: 'HUSH',
-                  coinBalance: '4.7880803',
-                  coinTicker: 'HUSH',
-                  coinIcon: 'hush3',
-                  isSynced: false,
-                  isConnected: false,
-                ),
-              ]),
+              child: ListView(children: cardList),
             ),
           ),
         ),
       ],
     ));
+  }
+
+  Future<void> _walletInfo() async {
+    var res = await ShurliService.WalletInfo();
+    var list = new List(res.wallets.length);
+    list = res.wallets;
+    List<AssetsCard> _tempCardList = List<AssetsCard>();
+    for (var i=0; i<list.length; i++) {
+      // print(list[i].name);
+      _tempCardList.insert(i, AssetsCard(
+        coinName: list[i].name,
+        coinBalance: list[i].balance.toString(),
+        coinTicker: list[i].ticker,
+        coinIcon: list[i].icon,
+        isSynced: list[i].synced,
+        isConnected: true,
+      ),);
+    }
+      // print(_tempCardList);
+    setState(() {
+      cardList = _tempCardList;
+    });
   }
 }
