@@ -6,7 +6,7 @@ on:
     - grewal
   # schedule:
     # Run at 00:00 UTC on Monday
-    # - cron:  "0 0 * * 1" 
+    # - cron:  "0 0 * * 1"
 
 jobs:
 
@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: 'master'
+          ref: 'dev'
 
       - name: Build Shurli (Linux)
         env:
@@ -139,7 +139,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: 'master'
+          ref: 'dev'
 
       - name: Install deps (macOS)
         run: |
