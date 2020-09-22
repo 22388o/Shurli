@@ -10,8 +10,8 @@ on:
 
 jobs:
 
-  linux-mac-builds:
-    name: linux-mac-builds
+  Linux-Win-builds:
+    name: Linux-Win-builds
     runs-on: ubuntu-latest
 
     steps:
@@ -46,6 +46,11 @@ jobs:
       #     cd $HOME/go/src/github.com/Meshbits/shurli && \
       #     make build-osx
 
+      - name: Install deps (Windows)
+        run: |
+          sudo apt-get -y update && \
+          sudo apt-get -y install gcc-mingw-w64-x86-64
+
       - name: Build Shurli (Winblows)
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -57,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: shurli_linux.zip
-          path: /home/runner/go/src/github.com/Meshbits/shurli/dist/shurli_linux.zip
+          path: $HOME/go/src/github.com/Meshbits/shurli/dist/shurli_linux.zip
       
       # - name: Upload shurli_macos.zip as artifact
       #   uses: actions/upload-artifact@v1
@@ -69,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: shurli_win.zip
-          path: /home/runner/go/src/github.com/Meshbits/shurli/dist/shurli_win.zip
+          path: $HOME/go/src/github.com/Meshbits/shurli/dist/shurli_win.zip
 
       # - name: Extract branch name
       #   shell: bash
@@ -143,11 +148,10 @@ jobs:
 
       - name: Install deps (macOS)
         run: |
-          brew update
-          brew upgrade
-          brew tap discoteq/discoteq; brew install flock
+          brew update &&
           brew install golang autoconf autogen automake binutils \
-            gcc@8 protobuf coreutils wget python3
+            gcc@8 &&
+          pwd
 
       - name: Build Shurli (macOS)
         run: |
@@ -165,4 +169,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: shurli_macos.zip
-          path: /home/runner/go/src/github.com/Meshbits/shurli/dist/shurli_macos.zip
+          path: $HOME/go/src/github.com/Meshbits/shurli/dist/shurli_macos.zip
