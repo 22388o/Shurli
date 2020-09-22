@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: shurli_linux.zip
-          path: $HOME/go/src/github.com/Meshbits/shurli/dist/shurli_linux.zip
+          path: /home/runner/go/src/github.com/Meshbits/shurli/dist/shurli_linux.zip
       
       # - name: Upload shurli_macos.zip as artifact
       #   uses: actions/upload-artifact@v1
@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: shurli_win.zip
-          path: $HOME/go/src/github.com/Meshbits/shurli/dist/shurli_win.zip
+          path: /home/runner/go/src/github.com/Meshbits/shurli/dist/shurli_win.zip
 
       # - name: Extract branch name
       #   shell: bash
@@ -146,12 +146,12 @@ jobs:
         with:
           ref: 'master'
 
-      - name: Install deps (macOS)
-        run: |
-          brew update &&
-          brew install golang autoconf autogen automake binutils \
-            gcc@8 &&
-          pwd
+      # - name: Install deps (macOS)
+      #   run: |
+      #     brew update &&
+      #     brew install golang autoconf autogen automake binutils \
+      #       gcc@8 &&
+      #     pwd
 
       - name: Build Shurli (macOS)
         run: |
@@ -169,4 +169,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: shurli_macos.zip
-          path: $HOME/go/src/github.com/Meshbits/shurli/dist/shurli_macos.zip
+          path: /Users/runner/go/src/github.com/Meshbits/shurli/dist/shurli_macos.zip
