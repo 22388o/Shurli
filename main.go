@@ -13,6 +13,7 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	"reflect"
 	"runtime"
 	"strconv"
 	"strings"
@@ -46,7 +47,7 @@ var rootDir string = sagoutil.ShurliRootDir()
 
 // ShurliApp stores the information about applications
 var ShurliApp = ShurliInfo{
-	AppVersion: "0.0.1",
+	AppVersion: "0.0.2",
 	AppPhase:   "alpha",
 }
 
@@ -95,6 +96,18 @@ func init() {
 		log.Fatal(err)
 	}
 	shurliPort = strconv.Itoa(getRandomFreePort)
+
+	// Check if config.json already exists.
+	// If doesn't, then create a new one
+	_, err = os.Stat("config.json")
+	if os.IsNotExist(err) {
+		// fmt.Println("config.json file does not exists. Creating a new one")
+		_, err := sagoutil.GenerateDEXP2PWallet()
+		if err != nil {
+			fmt.Printf("%s", err)
+		}
+		// sagoutil.ImportTAddrPrivKey(DexP2pChain)
+	}
 }
 
 func main() {
@@ -143,6 +156,8 @@ func main() {
 		r.HandleFunc("/orderbook/{id}", orderid).Methods("GET")
 		r.HandleFunc("/orderbook/swap/{id}/{amount}/{total}", orderinit).Methods("GET")
 		r.HandleFunc("/history", swaphistory)
+		r.HandleFunc("/settings", settings).Methods("GET", "POST")
+		r.HandleFunc("/wallet/importkey/{addrtype}/{asset}/{rescan}", importkey).Methods("GET")
 
 		// Gorilla WebSockets echo example used to do give subatomic trade data updates to orderinit
 		r.HandleFunc("/echo", echo)
@@ -450,8 +465,8 @@ func orderinit(w http.ResponseWriter, r *http.Request) {
 	var orderData sagoutil.OrderData
 	orderData = sagoutil.OrderID(id)
 
-	orderDataJSON, _ := json.Marshal(orderData)
-	sagoutil.Log.Println("orderData JSON:", string(orderDataJSON))
+	_orderDataJSON, _ := json.Marshal(orderData)
+	sagoutil.Log.Println("orderData JSON:", string(_orderDataJSON))
 
 	cmdString := `[subatomic] ./subatomic ` + orderData.Base + ` "" ` + id + ` ` + total
 	sagoutil.Log.Println(cmdString)
@@ -466,13 +481,13 @@ func orderinit(w http.ResponseWriter, r *http.Request) {
 		BaseExplorer string
 		RelExplorer  string
 		sagoutil.OrderData
-		OrderDataJson string
+		OrderDataJSON string
 	}{
 		ID:            id,
 		Amount:        amount,
 		Total:         total,
 		OrderData:     orderData,
-		OrderDataJson: string(orderDataJSON),
+		OrderDataJSON: string(_orderDataJSON),
 		BaseExplorer:  conf.Explorers[strings.ReplaceAll(orderData.Base, "z", "")],
 		RelExplorer:   conf.Explorers[strings.ReplaceAll(orderData.Rel, "z", "")],
 	}
@@ -521,11 +536,11 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 		err = c.WriteMessage(mt, message)
 
-		type opIdMsg struct {
+		type opIDMsg struct {
 			Opid string `json:"opid"`
 			Coin string `json:"coin"`
 		}
-		var opidmsg opIdMsg
+		var opidmsg opIDMsg
 		err = json.Unmarshal([]byte(message), &opidmsg)
 		// fmt.Println(opidmsg.Opid)
 		// fmt.Println(opidmsg.Coin)
@@ -674,6 +689,83 @@ func swaphistory(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// settings is a Settings page and shows shurli specific settings, example config.json data
+func settings(w http.ResponseWriter, r *http.Request) {
+
+	var conf sagoutil.SubAtomicConfig = sagoutil.SubAtomicConfInfo()
+
+	var _tmpConf sagoutil.SubAtomicConfig
+	_tmpConf = conf
+
+	if len(r.FormValue("dex_handle")) != 0 {
+		// fmt.Println(r.FormValue("dex_handle"))
+		conf.DexHandle = r.FormValue("dex_handle")
+	}
+	if len(r.FormValue("dex_pubkey")) != 0 {
+		// fmt.Println(r.FormValue("dex_pubkey"))
+		conf.DexPubkey = r.FormValue("dex_pubkey")
+	}
+	if len(r.FormValue("dex_recvtaddr")) != 0 {
+		// fmt.Println(r.FormValue("dex_recvtaddr"))
+		conf.DexRecvTAddr = r.FormValue("dex_recvtaddr")
+	}
+	if len(r.FormValue("dex_recvzaddr")) != 0 {
+		// fmt.Println(r.FormValue("dex_recvzaddr"))
+		conf.DexRecvZAddr = r.FormValue("dex_recvzaddr")
+	}
+
+	if !reflect.DeepEqual(_tmpConf, conf) {
+		conf.Chains = nil
+		conf.Explorers = nil
+		// get indented JSON output of nelwy generated config.json
+		var confJSON []byte
+		confJSON, err := json.MarshalIndent(conf, "", "	")
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(confJSON))
+
+		// Write newly genrated config.json to file
+		err = ioutil.WriteFile("config.json", confJSON, 0644)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	err := tpl.ExecuteTemplate(w, "settings.gohtml", conf)
+	if err != nil {
+		// log.Fatalf("some error")
+		http.Error(w, err.Error(), 500)
+		sagoutil.Log.Fatalln(err)
+	}
+}
+
+//importkey is used to import private key from DEXP2P configured address to the selected wallet/asset blockchain
+func importkey(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	addrType := vars["addrtype"]
+	asset := vars["asset"]
+	rescan := vars["rescan"]
+	fmt.Println(rescan)
+	// fmt.Printf("%T\n", rescan)
+
+	switch addrType {
+	case "public":
+		fmt.Println("importing public address to", asset)
+		sagoutil.ImportTAddrPrivKey(asset)
+	case "shielded":
+		fmt.Println("importing shielded address to", asset)
+		sagoutil.ImportZAddrPrivKey(asset)
+	}
+
+	payload := []byte(`{"result": "done"}`)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(payload)
+}
+
+// Open brower with the URL determined by the shurli and it's specific port
 func openbrowser(url string) {
 	var err error
 
