@@ -6,7 +6,7 @@ on:
     - grewal
   # schedule:
     # Run at 00:00 UTC on Monday
-    # - cron:  "0 0 * * 1"
+    # - cron:  "0 0 * * 1" 
 
 jobs:
 
