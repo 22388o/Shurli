@@ -49,6 +49,18 @@
 
 * While reporting issues, please report all the debug data at [Shurli Issues](https://github.com/Meshbits/shurli/issues).
 
+
+### Getting Shurli application from release builds
+
+If you don't know or don't want to compile Shurli yourself, you can get a pre-compiled binaries from the [release]() page.
+
+With pre-compiled Shurli application, you can ignore all next steps which are required for compiling Shurli on your own machine.
+
+
+### Getting Shurli application compiled from source code
+
+If you wish to compile Shurli application yourself directly through source code follow along next steps.
+
 ### Requirements
 
     - Go v1.14+
@@ -124,14 +136,14 @@ The directory structure of the Shurli looks like this:
 
 Just copy (or symlink on Linux/Windows) the `komodod`, `komodo-cli` and `subatomic` binaries to the `assets/` directory where you see `subatomic.json` file located.
 
-#### Configure config.json
+<!-- #### Configure config.json
 
 Make a copy of `config.json` file from `config.json.sample` file:
 
 ```shell
 cd $HOME/go/src/github.com/Meshbits/shurli
 cp config.json.sample config.json
-```
+``` -->
 
 <!--
 Open `config.json` in text editor and edit value of only `subatomic_dir` key.
@@ -172,7 +184,7 @@ Note that it's not backslash `\` but forward slash `/` for the path.
 If the format of this path would be incorrect, Shurli will have issue locating the `subatomic` binary on your machine.
 -->
 
-#### Configure DEX blockchain's parameters in `config.json` file
+<!-- #### Configure DEX blockchain's parameters in `config.json` file
 
 You MUST update value of `dex_pubkey`, `dex_handle`, `dex_recvzaddr`, `dex_recvtaddr` in your **config.json** file before starting Shurli application.
 
@@ -188,7 +200,7 @@ You MUST update value of `dex_pubkey`, `dex_handle`, `dex_recvzaddr`, `dex_recvt
     "dex_handle": "SET_YOUR_HANDLE_FOR_SUBATOMIC",
     "dex_recvzaddr": "YOUR_PIRATE_PRIVATE_ADDRRESS",
     "dex_recvtaddr": "YOUR_KMD_PUBLIC_ADDRRESS"
-```
+``` -->
 
 #### Build Shurli application
 
@@ -208,7 +220,9 @@ To start Shurli execute the following command:
 
 It will start Shurli in daemon mode, leaving Shurli running in background.
 
-Now open http://localhost:8080
+And will also automatically open a web address in your default web browser, showing Shurli Dashboard.
+
+NOTE: Shurli Dashboard at the moment is not automatically updated. You have to referesh the the web page manually to get latest status updates for the active blockchains showing on Shurli's dashboard.
 
 #### Stop Shurli App
 
