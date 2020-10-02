@@ -1,0 +1,3 @@
+export CGO_CFLAGS="-I$HOME/go/src/github.com/satindergrewal/saplinglib/src/"
+export CGO_LDFLAGS="-L$HOME/go/src/github.com/satindergrewal/saplinglib/dist/win64 -lsaplinglib -lws2_32 -luserenv"
+export CC="x86_64-w64-mingw32-gcc"

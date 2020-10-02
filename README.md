@@ -95,6 +95,52 @@ brew update
 brew install go
 ```
 
+### Setting up envrionment variables
+
+Since second PoC of Shurli, it requires to setup some CGO environment flags to propely setup dev and compilation environment.
+
+Based on your OS, please execute the following `export` commands to setup required environment variables:
+
+##### MacOS
+
+```shell
+export CGO_CFLAGS="-I$HOME/go/src/github.com/satindergrewal/saplinglib/src/"
+export CGO_LDFLAGS="-L$HOME/go/src/github.com/satindergrewal/saplinglib/dist/darwin -lsaplinglib -framework Security"
+```
+
+##### Linux
+
+```shell
+export CGO_CFLAGS="-I$HOME/go/src/github.com/satindergrewal/saplinglib/src/"
+export CGO_LDFLAGS="-L$HOME/go/src/github.com/satindergrewal/saplinglib/dist/linux -lsaplinglib -lpthread -ldl -lm"
+```
+
+##### Windows - Cross-Platfrom using MingW
+
+```shell
+export CGO_CFLAGS="-I$HOME/go/src/github.com/satindergrewal/saplinglib/src/"
+export CGO_LDFLAGS="-L$HOME/go/src/github.com/satindergrewal/saplinglib/dist/win64 -lsaplinglib -lws2_32 -luserenv"
+export CC="x86_64-w64-mingw32-gcc"
+```
+
+##### Setting environment variables for existing source code install
+
+If you already has the Shurli source code fetched, you can just get update on it and then execute the following commands to setup environment variables:
+
+```shell
+go get -u github.com/Meshbits/shurli
+cd $HOME/go/src/github.com/Meshbits/shurli
+
+# MacOS
+source sagoutil/env/env_osx
+
+# Linux
+source sagoutil/env/env_linux
+
+# MingW
+source sagoutil/env/env_mingw
+```
+
 ### Installing Shurli App
 
 In Linux/Mac you must have a `go` directory under your `$HOME` directory in your OS.
