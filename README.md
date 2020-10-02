@@ -95,7 +95,7 @@ brew update
 brew install go
 ```
 
-### Setting up envrionment variables
+### Setting up environment variables
 
 Since second PoC of Shurli, it requires to setup some CGO environment flags to propely setup dev and compilation environment.
 
