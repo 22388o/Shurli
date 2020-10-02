@@ -322,38 +322,50 @@ func ImportTAddrPrivKey(toChain string) error {
 
 	var tAddrPrivkey string
 
-	// If toChain is equals to DexP2pChain get the private key from wallet.json
-	if toChain == DexP2pChain {
-		var wallet kmdutil.IguanaWallet
-		walletJSONContent, err := ioutil.ReadFile("wallet.json")
-		if err != nil {
-			fmt.Println("wallet.json file not found")
-			log.Fatal(err)
-		}
-		err = json.Unmarshal(walletJSONContent, &wallet)
-		fmt.Println("private key:", wallet.WifC)
-		tAddrPrivkey = wallet.WifC
-	} else {
-		// Get contents of config.json file
-		var conf SubAtomicConfig
-		confJSONContent, err := ioutil.ReadFile("config.json")
-		if err != nil {
-			log.Fatal(err)
-		}
-		err = json.Unmarshal(confJSONContent, &conf)
-
-		// Get DEXP2P transparent address' private key using dumpprivkey
-		var DexP2PDumpTPrivKey kmdgo.DumpPrivKey
-		DexP2PDumpTPrivKey, err = kmdgo.NewAppType(kmdgo.AppType(DexP2pChain)).DumpPrivKey(conf.DexRecvTAddr)
-		if err != nil {
-			fmt.Printf("Code: %v\n", DexP2PDumpTPrivKey.Error.Code)
-			fmt.Printf("Message: %v\n\n", DexP2PDumpTPrivKey.Error.Message)
-			// log.Fatalln("Err happened", err)
-			return err
-		}
-		// fmt.Println(DexP2PDumpTPrivKey.Result)
-		tAddrPrivkey = DexP2PDumpTPrivKey.Result
+	// Just get wif key for all chains from wallet.json --- 2 Oct. 2020
+	var wallet kmdutil.IguanaWallet
+	walletJSONContent, err := ioutil.ReadFile("wallet.json")
+	if err != nil {
+		fmt.Println("wallet.json file not found")
+		log.Fatal(err)
 	}
+	err = json.Unmarshal(walletJSONContent, &wallet)
+	fmt.Println("private key:", wallet.WifC)
+	tAddrPrivkey = wallet.WifC
+
+	// --- NOTE Disabled this part of code for now. --- 2 Oct. 2020
+	// // If toChain is equals to DexP2pChain get the private key from wallet.json
+	// if toChain == DexP2pChain {
+	// 	var wallet kmdutil.IguanaWallet
+	// 	walletJSONContent, err := ioutil.ReadFile("wallet.json")
+	// 	if err != nil {
+	// 		fmt.Println("wallet.json file not found")
+	// 		log.Fatal(err)
+	// 	}
+	// 	err = json.Unmarshal(walletJSONContent, &wallet)
+	// 	fmt.Println("private key:", wallet.WifC)
+	// 	tAddrPrivkey = wallet.WifC
+	// } else {
+	// 	// Get contents of config.json file
+	// 	var conf SubAtomicConfig
+	// 	confJSONContent, err := ioutil.ReadFile("config.json")
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	err = json.Unmarshal(confJSONContent, &conf)
+
+	// 	// Get DEXP2P transparent address' private key using dumpprivkey
+	// 	var DexP2PDumpTPrivKey kmdgo.DumpPrivKey
+	// 	DexP2PDumpTPrivKey, err = kmdgo.NewAppType(kmdgo.AppType(DexP2pChain)).DumpPrivKey(conf.DexRecvTAddr)
+	// 	if err != nil {
+	// 		fmt.Printf("Code: %v\n", DexP2PDumpTPrivKey.Error.Code)
+	// 		fmt.Printf("Message: %v\n\n", DexP2PDumpTPrivKey.Error.Message)
+	// 		// log.Fatalln("Err happened", err)
+	// 		return err
+	// 	}
+	// 	// fmt.Println(DexP2PDumpTPrivKey.Result)
+	// 	tAddrPrivkey = DexP2PDumpTPrivKey.Result
+	// }
 
 	// Import privkey to the target chain
 	var DexP2PImpTPrivkey kmdgo.ImportPrivKey
@@ -363,7 +375,7 @@ func ImportTAddrPrivKey(toChain string) error {
 	args[2] = false
 	// fmt.Println(args)
 
-	DexP2PImpTPrivkey, err := kmdgo.NewAppType(kmdgo.AppType(toChain)).ImportPrivKey(args)
+	DexP2PImpTPrivkey, err = kmdgo.NewAppType(kmdgo.AppType(toChain)).ImportPrivKey(args)
 	if err != nil {
 		fmt.Printf("Code: %v\n", DexP2PImpTPrivkey.Error.Code)
 		fmt.Printf("Message: %v\n\n", DexP2PImpTPrivkey.Error.Message)
@@ -380,38 +392,50 @@ func ImportZAddrPrivKey(toChain string) error {
 
 	var zAddrPrivkey string
 
-	// If toChain is equals to DexP2pChain get the private key from wallet.json
-	if toChain == DexP2pChain {
-		var wallet kmdutil.IguanaWallet
-		walletJSONContent, err := ioutil.ReadFile("wallet.json")
-		if err != nil {
-			fmt.Println("wallet.json file not found")
-			log.Fatal(err)
-		}
-		err = json.Unmarshal(walletJSONContent, &wallet)
-		// fmt.Println("private key:", wallet.ZPrivateKey)
-		zAddrPrivkey = wallet.ZPrivateKey
-	} else {
-		// Get contents of config.json file
-		var conf SubAtomicConfig
-		confJSONContent, err := ioutil.ReadFile("config.json")
-		if err != nil {
-			log.Fatal(err)
-		}
-		err = json.Unmarshal(confJSONContent, &conf)
-
-		// Get DEXP2P shielded address' private key using z_exportkey
-		var DexP2PExportZPrivKey kmdgo.ZExportKey
-		DexP2PExportZPrivKey, err = kmdgo.NewAppType(kmdgo.AppType(DexP2pChain)).ZExportKey(conf.DexRecvZAddr)
-		if err != nil {
-			fmt.Printf("Code: %v\n", DexP2PExportZPrivKey.Error.Code)
-			fmt.Printf("Message: %v\n\n", DexP2PExportZPrivKey.Error.Message)
-			// log.Fatalln("Err happened", err)
-			return err
-		}
-		// fmt.Println(DexP2PExportZPrivKey.Result)
-		zAddrPrivkey = DexP2PExportZPrivKey.Result
+	// Just get z private key for all chains from wallet.json --- 2 Oct. 2020
+	var wallet kmdutil.IguanaWallet
+	walletJSONContent, err := ioutil.ReadFile("wallet.json")
+	if err != nil {
+		fmt.Println("wallet.json file not found")
+		log.Fatal(err)
 	}
+	err = json.Unmarshal(walletJSONContent, &wallet)
+	// fmt.Println("private key:", wallet.ZPrivateKey)
+	zAddrPrivkey = wallet.ZPrivateKey
+
+	// --- NOTE Disabled this part of code for now. --- 2 Oct. 2020
+	// // If toChain is equals to DexP2pChain get the private key from wallet.json
+	// if toChain == DexP2pChain {
+	// 	var wallet kmdutil.IguanaWallet
+	// 	walletJSONContent, err := ioutil.ReadFile("wallet.json")
+	// 	if err != nil {
+	// 		fmt.Println("wallet.json file not found")
+	// 		log.Fatal(err)
+	// 	}
+	// 	err = json.Unmarshal(walletJSONContent, &wallet)
+	// 	// fmt.Println("private key:", wallet.ZPrivateKey)
+	// 	zAddrPrivkey = wallet.ZPrivateKey
+	// } else {
+	// 	// Get contents of config.json file
+	// 	var conf SubAtomicConfig
+	// 	confJSONContent, err := ioutil.ReadFile("config.json")
+	// 	if err != nil {
+	// 		log.Fatal(err)
+	// 	}
+	// 	err = json.Unmarshal(confJSONContent, &conf)
+
+	// 	// Get DEXP2P shielded address' private key using z_exportkey
+	// 	var DexP2PExportZPrivKey kmdgo.ZExportKey
+	// 	DexP2PExportZPrivKey, err = kmdgo.NewAppType(kmdgo.AppType(DexP2pChain)).ZExportKey(conf.DexRecvZAddr)
+	// 	if err != nil {
+	// 		fmt.Printf("Code: %v\n", DexP2PExportZPrivKey.Error.Code)
+	// 		fmt.Printf("Message: %v\n\n", DexP2PExportZPrivKey.Error.Message)
+	// 		// log.Fatalln("Err happened", err)
+	// 		return err
+	// 	}
+	// 	// fmt.Println(DexP2PExportZPrivKey.Result)
+	// 	zAddrPrivkey = DexP2PExportZPrivKey.Result
+	// }
 
 	// Import shielded address' privkey to the target chain
 	var DexP2PImpZPrivkey kmdgo.ZImportKey
@@ -421,7 +445,7 @@ func ImportZAddrPrivKey(toChain string) error {
 	args[2] = 0
 	// fmt.Println(args)
 
-	DexP2PImpZPrivkey, err := kmdgo.NewAppType(kmdgo.AppType(toChain)).ZImportKey(args)
+	DexP2PImpZPrivkey, err = kmdgo.NewAppType(kmdgo.AppType(toChain)).ZImportKey(args)
 	if err != nil {
 		fmt.Printf("Code: %v\n", DexP2PImpZPrivkey.Error.Code)
 		fmt.Printf("Message: %v\n\n", DexP2PImpZPrivkey.Error.Message)
