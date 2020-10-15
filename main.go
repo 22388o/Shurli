@@ -22,6 +22,7 @@ import (
 	"time"
 
 	"github.com/satindergrewal/kmdgo/kmdutil"
+	"github.com/zserge/lorca"
 
 	"github.com/Meshbits/shurli/sagoutil"
 	"github.com/satindergrewal/kmdgo"
@@ -66,6 +67,9 @@ var shurliPort string
 // PIDFile file stores the process ID file for shurli process
 var PIDFile = "./shurli.pid"
 
+// tmpPortFile stores the port used by shurli http method
+var tmpPortFile = "./tmpport"
+
 func savePID(pid int) {
 
 	file, err := os.Create(PIDFile)
@@ -86,6 +90,22 @@ func savePID(pid int) {
 
 	file.Sync() // flush to disk
 
+}
+
+func saveTempPort(port int) {
+	file, err := os.Create(tmpPortFile)
+	if err != nil {
+		log.Printf("Unable to create temp port file : %v\n", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	_, err = file.WriteString(strconv.Itoa(port))
+	if err != nil {
+		log.Printf("Unable to create temp port file : %v\n", err)
+		os.Exit(1)
+	}
+	file.Sync() // flush to disk
 }
 
 func init() {
@@ -113,8 +133,10 @@ func init() {
 func main() {
 
 	if len(os.Args) != 2 {
-		fmt.Printf("Usage : %s [start|stop] \n ", os.Args[0]) // return the program name back to %s
-		os.Exit(0)                                            // graceful exit
+		cmd := exec.Command(os.Args[0], "start")
+		cmd.Start()
+		// fmt.Printf("Usage : %s [start|stop] \n ", os.Args[0]) // return the program name back to %s
+		os.Exit(0) // graceful exit
 	}
 
 	// If running with command "./shurli main"
@@ -167,7 +189,9 @@ func main() {
 
 		// public assets files
 		r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./public/"))))
-		openbrowser("http://localhost:" + shurliPort)
+		// openbrowser("http://localhost:" + shurliPort)
+		saveShurliPort, _ := strconv.Atoi(shurliPort)
+		saveTempPort(saveShurliPort)
 		fmt.Printf("Shurli accessible on http://localhost:%v\n", shurliPort)
 		sagoutil.Log.Printf("Shurli accessible on http://localhost:%v\n", shurliPort)
 		sagoutil.Log.Fatal(http.ListenAndServe(":"+shurliPort, r))
@@ -259,6 +283,41 @@ func main() {
 			fmt.Println("\t"+DexP2pChain+" recvTaddr: ", conf.DexRecvTAddr)
 			sagoutil.Log.Println("\t"+DexP2pChain+" recvTaddr: ", conf.DexRecvTAddr)
 			sagoutil.Log.Println("[Shurli] Started DEX komodod. Process ID is : ", dexcmd.Process.Pid)
+
+			args := []string{}
+			if runtime.GOOS == "linux" {
+				args = append(args, "--class=Lorca")
+			}
+
+			time.Sleep(2 * time.Second)
+			tmpPort, err := ioutil.ReadFile(tmpPortFile)
+			if err != nil {
+				fmt.Println(err.Error())
+				os.Exit(1)
+			}
+
+			ui, err := lorca.New("", "", 1080, 800, args...)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer ui.Close()
+
+			fmt.Println(fmt.Sprintf("http://localhost:%s", string(tmpPort)))
+			ui.Load(fmt.Sprintf("http://localhost:%s", string(tmpPort)))
+			// ui.Load("http://google.com")
+
+			// Wait until the interrupt signal arrives or browser window is closed
+			sigc := make(chan os.Signal)
+			signal.Notify(sigc, os.Interrupt)
+			select {
+			case <-sigc:
+			case <-ui.Done():
+			}
+
+			log.Println("exiting...")
+			cmd := exec.Command(os.Args[0], "stop")
+			cmd.Start()
+
 			os.Exit(0)
 		}
 	}
@@ -281,6 +340,9 @@ func main() {
 		// fmt.Println(info)
 		fmt.Println("[Shurli] ", info.Result)
 		sagoutil.Log.Println("[Shurli] ", info.Result)
+
+		// remove PID file
+		os.Remove(tmpPortFile)
 
 		if _, err := os.Stat(PIDFile); err == nil {
 			data, err := ioutil.ReadFile(PIDFile)
