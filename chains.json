@@ -19,12 +19,6 @@
             "shielded": true
         },
         {
-            "coin": "HUSH3",
-            "ticker": "HUSH3",
-            "name": "Hush",
-            "shielded": true
-        },
-        {
             "coin": "DEX",
             "ticker": "DEX",
             "name": "DEX",
