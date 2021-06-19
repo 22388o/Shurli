@@ -1,15 +1,15 @@
 # Shurli
 
- Shurli App - alpha version
+ Shurli App - Proof of Concept App for DEXP2P
 
 ## :warning: IMPORTANT NOTE: Please use only small amounts of funds in your wallet while testing subatomic swaps
 
-## :warning: This is in alpha phase right now so please expect breaking changes.
+## :warning: This is Proof of Concept App for DEXP2P so please expect breaking changes.
 
 
 ## Objective
 
- To build an independent GUI application that works with existing supported wallets to make sub-atomic trades.
+To build an independent Proof of Concept App for DEXP2P GUI application that works with existing supported wallets to make sub-atomic trades.
 
 ### Currently supported
 
